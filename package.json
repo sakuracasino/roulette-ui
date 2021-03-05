@@ -1,0 +1,38 @@
+{
+  "name": "roulette-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/webpack serve",
+    "build": "./node_modules/.bin/webpack",
+    "lint": "./node_modules/.bin/eslint . --ext .ts,.tsx",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.9",
+    "@babel/preset-react": "^7.12.13",
+    "@babel/preset-typescript": "^7.13.0",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.21.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-webpack-plugin": "^2.5.2",
+    "html-webpack-plugin": "^5.2.0",
+    "webpack": "^5.24.3",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "immutable": "^4.0.0-rc.12",
+    "lodash": "^4.17.21",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-router-dom": "^5.2.0",
+    "web3": "^1.3.4",
+    "web3-utils": "^1.3.4"
+  }
+}
