@@ -58,6 +58,7 @@ module.exports = {
     new htmlWebpackPlugin({
       template: `${APP_DIR}/index.html`,
       filename: `index.html`,
+      favicon: './src/assets/roulette-logo.svg',
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
