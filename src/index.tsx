@@ -1,18 +1,15 @@
 import React          from 'react';
 import ReactDOM       from 'react-dom';
 import { Provider }   from 'react-redux';
-import logger         from 'redux-logger';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import store          from './flux/store';
 
 import Layout from './components/Layout';
-
-const reducers = combineReducers({});
-const store = createStore(reducers, applyMiddleware(logger));
+import BetPage from './components/BetPage';
 
 ReactDOM.render(
   <Provider store={store}>
     <Layout>
-      xx
+      <BetPage />
     </Layout>
   </Provider>,
   document.getElementById('root')
