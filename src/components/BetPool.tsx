@@ -18,7 +18,7 @@ const renderBet = function (onRemoveClick: (index) => void, bet: Bet, index: num
 
   const description = {
     [BetType.Number]: bet.value,
-    [BetType.Color]: bet.value ? 'Red' : 'Black',
+    [BetType.Color]: bet.value ? 'Black' : 'Red',
     [BetType.Even]: bet.value ? 'Odd' : 'Even',
     [BetType.Column]: ['1st Column', '2nd Column', '3rd Column'][bet.value],
     [BetType.Dozen]: ['1st Dozen', '2nd Dozen', '3rd Dozen'][bet.value],
