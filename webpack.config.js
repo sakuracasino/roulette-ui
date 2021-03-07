@@ -28,7 +28,7 @@ module.exports = {
         use: ['babel-loader'],
       },
       {
-        test: /\.scss$/,
+        test: /\.(css|scss)$/,
         use: [
           'style-loader',
           'css-loader',
@@ -51,6 +51,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
+    modules: [APP_DIR, './node_modules'],
   },
   plugins: [
     new ESLintPlugin(),

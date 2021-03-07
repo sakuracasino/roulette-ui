@@ -4,12 +4,12 @@ import { Provider }   from 'react-redux';
 import store          from './flux/store';
 
 import Layout from './components/Layout';
-import BetPage from './components/BetPage';
+import BetPageContainer from './containers/BetPageCointainer';
 
 ReactDOM.render(
   <Provider store={store}>
     <Layout>
-      <BetPage />
+      <BetPageContainer />
     </Layout>
   </Provider>,
   document.getElementById('root')

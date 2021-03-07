@@ -1,11 +1,15 @@
 import React from 'react';
 
-import BetPane from './BetPane';
+import BetPlacer from './BetPlacer';
 
-const BetPage = function () {
+const BetPage = function (props) {
   return (
     <div>
-      <BetPane />
+      <BetPlacer
+        bets={props.bets}
+        onAddBet={props.addBet}
+        onRemoveBet={props.removeBet}
+      />
     </div>
   );
 };
