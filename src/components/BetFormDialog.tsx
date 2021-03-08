@@ -51,7 +51,8 @@ const BetFormDialog = (props) => {
               placeholder="0.0"
               pattern="^[0-9]*[.]?[0-9]*$"
               value={bet.amount || ''}
-              onChange={handleInputChange}/>
+              onChange={handleInputChange}
+              onKeyDown={e => e.key === 'Enter' && !placeBetDisabled && onBetPlace()}/>
             <div className="BetFormDialog__amount-power">
               x{betMultiply}
             </div>
