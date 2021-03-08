@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-
+import {getBetDescription} from '../libs/utils';
 import {Bet, BetType} from '../types.d';
 
 import './BetPool.scss';
@@ -16,14 +16,7 @@ const renderBet = function (onRemoveClick: (index) => void, bet: Bet, index: num
     'BetPool__bet--half': bet.type === BetType.Half,
   });
 
-  const description = {
-    [BetType.Number]: bet.value,
-    [BetType.Color]: bet.value ? 'Black' : 'Red',
-    [BetType.Even]: bet.value ? 'Odd' : 'Even',
-    [BetType.Column]: ['1st Column', '2nd Column', '3rd Column'][bet.value],
-    [BetType.Dozen]: ['1st Dozen', '2nd Dozen', '3rd Dozen'][bet.value],
-    [BetType.Half]: ['From 1 to 18', 'From 19 to 36'][bet.value],
-  }[bet.type];
+  const description = getBetDescription(bet);
 
   return (
     <li className={betClass} key={`${index}`}>

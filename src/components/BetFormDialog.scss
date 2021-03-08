@@ -53,4 +53,100 @@
     align-items: center;
     padding: 0.75rem 0.75rem 0.75rem 1rem;
   }
+
+  &__amount-power {
+    color: #757575;
+    font-size: 20px;
+  }
+
+  &__expected-win {
+    font-weight: 500;
+    font-size: 14px;
+    color: rgb(195, 197, 203);
+    padding: 10px;
+    // text-align: right;
+
+    &-amount {
+      margin-left: 5px;
+      color: rgb(39, 174, 96);
+      font-size: 16px;
+    }
+  }
+
+  &__place-bet-button {
+    margin-top: 15px;
+    padding: 18px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 20px;
+    outline: none;
+    border: 1px solid transparent;
+    text-decoration: none;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    -webkit-box-align: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    background-color: rgb(33, 114, 229);
+    color: white;
+
+    &[disabled] {
+      background-color: rgb(64, 68, 79);
+      color: rgb(108, 114, 132);
+      cursor: auto;
+      box-shadow: none;
+      border: 1px solid transparent;
+      outline: none;
+      opacity: 1;
+    }
+  }
+
+  &__bet-info {
+    margin-bottom: 20px;
+    font-size: 13px;
+
+    &__description {
+      display: inline-block;
+    }
+
+
+    &__value {
+      background-color: rgba(21, 61, 111, 0.44);
+      color: rgb(33, 114, 229);
+      // background-color: #757575;
+      // color: white;
+      // background-color: rgb(44, 47, 54);
+      // color: rgb(195, 197, 203);
+      font-size: 14px;
+      padding: 2px 10px;
+      margin-left: 5px;
+      border-radius: 5px;
+
+      &[data-color="red"] {
+        color: white;
+        background-color: rgb(216, 22, 23);
+      }
+      &[data-color="green"] {
+        color: white;
+        background-color: #2e9934;
+      }
+      &[data-color="black"] {
+        color: white;
+        background-color: #000000;
+      }
+    }
+
+    &__multiplier {
+      display: inline-block;
+      color:#757575;
+      font-size: 11px;
+      margin-left: 6px;
+    }
+  }
 }
