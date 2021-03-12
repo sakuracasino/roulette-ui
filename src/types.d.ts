@@ -10,6 +10,7 @@ export enum BetType {
 export interface BetCell {
   type: BetType;
   value: number;
+  id?: number;
 }
 
 export interface Bet extends BetCell {

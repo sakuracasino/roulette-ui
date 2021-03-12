@@ -4,6 +4,7 @@ import BetBadge from './BetBadge';
 import {Bet} from '../types.d';
 
 import './BetPool.scss';
+import './Dice.scss';
 
 const renderBet = function (validIds: number[], onRemoveClick: (index) => void, bet: Bet, index: number) {
   const betClass = classNames({
@@ -38,11 +39,53 @@ const BetPool = function (props: {onRemoveClick: (index: number) => void, bets: 
   const validIds = bets.map(bet => bet.id);
   return (
     <div className="BetPool">
-      <div className="BetPool__total">Total: ${totalBet.toFixed(2)}</div>
+      <div className="BetPool__total">
+        Total: <span className="BetPool__total-number">${totalBet.toFixed(2)}</span>
+      </div>
       <div className="BetPool__bets">
         {betHistory.map(renderBet.bind(this, validIds, onRemoveClick))}
         {bets.length ? null : renderNoBets()}
       </div>
+      {bets.length ? <button className="BetPool__roll">
+        Roll
+        <div className="BetPool__roll-dice">
+          <div id="die-1" className="die">
+              <div className="face face-1">
+                  <div className="dot"></div>
+              </div>
+              <div className="face face-2">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+              </div>
+              <div className="face face-3">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+              </div>
+              <div className="face face-4">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+              </div>
+              <div className="face face-5">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+              </div>
+              <div className="face face-6">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+              </div>
+          </div>
+      </div>
+      </button> : null}
     </div>
   )
 };

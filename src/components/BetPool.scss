@@ -22,13 +22,13 @@
 
   &__bets {
     background-color: rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    -webkit-box-pack: start;
     justify-content: flex-start;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
     border: 1px solid rgb(64, 68, 79);
+    border-right: 0;
+    max-height: 430px;
+    overflow-y: auto;
   }
 
   &__bet {
@@ -47,6 +47,12 @@
       border: 0;
     }
 
+    &__amount {
+      color: #c3c5cb;
+      width: 50px;
+      text-align: left;
+    }
+
     &__remove {
       cursor: pointer;
     }
@@ -57,5 +63,81 @@
     padding: 30px 0;
     font-style: italic;
     color: #b4b6bc
+  }
+
+  &__total {
+    padding: 10px;
+    text-align: left;
+
+    &-number {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 1;
+      color: rgb(33, 114, 229);
+    }
+  }
+
+  &__roll {
+    padding: 18px;
+    width: 80%;
+    font-size: 20px;
+    font-weight: 500;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    outline: none;
+    border: 0;
+    margin: 0 auto;
+    text-decoration: none;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    -webkit-box-align: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    color: white;
+    
+    position: relative;
+    background: linear-gradient(45deg, #000, #272727);
+
+    &:hover {
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        background: linear-gradient(45deg, #fb0094, #00ff00,#ffff00, #ff0000, #fb0094, #fb0094);
+        background-size: 400%;
+        width: calc(100%);
+        height: calc(100%);
+        z-index: -1;
+        animation: steam 10s linear infinite;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+      }
+      
+      @keyframes steam {
+        0% {
+          background-position: 0 0;
+        }
+        50% {
+          background-position: 400% 0;
+        }
+        100% {
+          background-position: 0 0;
+        }
+      }
+      
+      &:after {
+        filter: blur(10px);
+      }
+      
+      .die {
+        animation-duration: 2s;
+      }
+    }
+  }
+
+  &__roll-dice {
+    margin-left: 20px;
   }
 }

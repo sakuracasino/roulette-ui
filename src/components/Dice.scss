@@ -1,0 +1,225 @@
+
+:root {
+  --face-size: 20px;
+  --dot-size: calc(var(--face-size) * 0.225);
+}
+
+/* Create spin animation */
+
+@keyframes spin {
+  from {
+      transform: rotateX(0deg) rotateY(0deg);
+  }
+  
+  to {
+      transform: rotateX(360deg) rotateY(720deg);
+  }
+}
+
+/* Position dice on page */
+
+#die-1 {
+  left: 100px;
+  top: 100px;
+}
+
+#die-2 {
+  left: 300px;
+  top: 200px;
+  
+  animation-direction: reverse;
+}
+
+/* Set die style */
+
+.die {
+  // position: absolute;
+  
+  width: var(--face-size);
+  height: var(--face-size);
+  
+  transform-style: preserve-3d;
+  
+  animation: spin 5s linear infinite;
+}
+
+/* Set die face style */
+
+.face {
+  position: absolute;
+
+  font-size: 40px;
+
+  width: var(--face-size);
+  height: var(--face-size);
+
+  text-align: center;
+  line-height: var(--face-size);
+  
+  border: 1px solid black;
+  
+  transform-style: preserve-3d;
+  
+  background-color: white;
+}
+
+/* Position face 1 and dots */
+
+.face-1 {
+  transform: translateZ(calc(var(--face-size) / -2)) rotateY(180deg);
+}
+
+.face-1 > .dot {
+  left: 50%;
+  top: 50%;
+}
+
+/* Position face 2 and dots */
+
+.face-2 {
+  transform: translateX(50%) rotateY(90deg);
+}
+
+.face-2 > .dot:nth-child(1) {
+  left: 25%;
+  top: 50%;
+}
+
+.face-2 > .dot:nth-child(1) {
+  left: 25%;
+  top: 50%;
+}
+
+.face-2 > .dot:nth-child(2) {
+  left: 75%;
+  top: 50%;
+}
+
+/* Position face 3 and dots */
+
+.face-3 {
+  transform: translateX(-50%) rotateY(-90deg);
+}
+
+.face-3 > .dot:nth-child(1) {
+  left: 25%;
+  top: 25%;
+}
+
+.face-3 > .dot:nth-child(2) {
+  left: 50%;
+  top: 50%;
+}
+
+.face-3 > .dot:nth-child(3) {
+  left: 75%;
+  top: 75%;
+}
+
+/* Position face 4 and dots */
+
+.face-4 {
+  transform: translateY(50%) rotateX(90deg);
+}
+
+.face-4 > .dot:nth-child(1) {
+  left: 25%;
+  top: 25%
+}
+
+.face-4 > .dot:nth-child(2) {
+  left: 75%;
+  top: 25%
+}
+
+.face-4 > .dot:nth-child(3) {
+  left: 25%;
+  top: 75%
+}
+
+.face-4 > .dot:nth-child(4) {
+  left: 75%;
+  top: 75%
+}
+
+/* Position face 5 and dots */
+
+.face-5 {
+  transform: translateY(-50%) rotateX(-90deg);
+}
+
+.face-5 > .dot:nth-child(1) {
+  left: 25%;
+  top: 25%
+}
+
+.face-5 > .dot:nth-child(2) {
+  left: 75%;
+  top: 25%
+}
+
+.face-5 > .dot:nth-child(3) {
+  left: 25%;
+  top: 75%
+}
+
+.face-5 > .dot:nth-child(4) {
+  left: 75%;
+  top: 75%
+}
+
+.face-5 > .dot:nth-child(5) {
+  left: 50%;
+  top: 50%
+}
+
+/* Position face 6 and dots */
+
+.face-6 {
+  transform: translateZ(calc(var(--face-size) / 2));
+}
+
+.face-6 > .dot:nth-child(1) {
+  left: 25%;
+  top: 25%
+}
+
+.face-6 > .dot:nth-child(2) {
+  left: 75%;
+  top: 25%
+}
+
+.face-6 > .dot:nth-child(3) {
+  left: 25%;
+  top: 50%
+}
+
+.face-6 > .dot:nth-child(4) {
+  left: 75%;
+  top: 50%
+}
+
+.face-6 > .dot:nth-child(5) {
+  left: 25%;
+  top: 75%
+}
+
+.face-6 > .dot:nth-child(6) {
+  left: 75%;
+  top: 75%
+}
+
+/* Set dot style */
+
+.dot {
+  position: absolute;
+  
+  width: var(--dot-size);
+  height: var(--dot-size);
+  
+  border-radius: 50%;
+  
+  background-color: black;
+  
+  transform: translate(-50%, -50%);
+}
