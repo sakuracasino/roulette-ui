@@ -1,0 +1,19 @@
+.BetLayout {
+  position: relative;
+  &--payouts {
+    img {
+      filter: grayscale(100%);
+      opacity: 0.05;
+    }
+  }
+
+  &__payout {
+    display: inline-block;
+    position: absolute;
+    z-index: 1000;
+    transform: rotate(-65deg);
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+  }
+}

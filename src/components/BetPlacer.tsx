@@ -47,9 +47,9 @@ const BetPlacer = function ({bets, betHistory, onRemoveBet, onAddBet}: BetPlacer
         <BetPool bets={bets} betHistory={betHistory} onRemoveClick={onRemoveBet}/>
       </div>
       <div className="BetPlacer__bet-layout">
-        <BetLayout bets={bets} onCellClick={handleCellClick}/>
+        <BetLayout bets={bets} onCellClick={handleCellClick} displayPayouts={true} />
       </div>
-      <BetFormDialog 
+      <BetFormDialog
         open={betFormOpened}
         bet={betForm}
         onInputChange={handleAmountChange}

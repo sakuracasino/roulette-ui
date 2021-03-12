@@ -1,7 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import BetBadge from './BetBadge';
-import {Bet} from '../types.d';
+import { Bet } from '../types.d';
+import { getBetSetPayouts } from '../libs/utils';
 
 import './BetPool.scss';
 import './Dice.scss';
@@ -36,11 +37,17 @@ const renderNoBets = () => (
 const BetPool = function (props: {onRemoveClick: (index: number) => void, bets: Bet[], betHistory: Bet[]}) {
   const {bets, betHistory, onRemoveClick} = props;
   const totalBet = bets.reduce((total, bet) => total + bet.amount, 0);
+  const maxWin = getBetSetPayouts(bets).reduce((r, payout) => Math.max(r, payout), 0);
   const validIds = bets.map(bet => bet.id);
   return (
     <div className="BetPool">
       <div className="BetPool__total">
-        Total: <span className="BetPool__total-number">${totalBet.toFixed(2)}</span>
+        <div>
+          Total: <span className="BetPool__total-number">${totalBet.toFixed(2)}</span>
+        </div>
+        <div className="BetPool__max-win">
+          Max win: <span className="BetPool__max-win-number">+${maxWin.toFixed(2)}</span>
+        </div>
       </div>
       <div className="BetPool__bets">
         {betHistory.map(renderBet.bind(this, validIds, onRemoveClick))}

@@ -77,6 +77,23 @@
     }
   }
 
+  &__max-win {
+    font-size: 13px;
+    color: #c3c5cb;
+    text-align: right;
+    cursor: pointer;
+
+    &-number {
+      color: rgb(39, 174, 96);
+      padding: 2px;
+      border-radius: 4px;
+
+      &:hover {
+        color: rgba(39, 174, 96, 0.5);
+      }
+    }
+  }
+
   &__roll {
     padding: 18px;
     width: 80%;

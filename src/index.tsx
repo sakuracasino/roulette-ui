@@ -1,7 +1,7 @@
-import React          from 'react';
-import ReactDOM       from 'react-dom';
-import { Provider }   from 'react-redux';
-import store          from './flux/store';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './flux/store';
 import 'inter-ui';
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
@@ -18,5 +18,5 @@ ReactDOM.render(
       <BetPageContainer />
     </Layout>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

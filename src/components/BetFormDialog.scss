@@ -5,7 +5,6 @@
     display: flex;
     flex-flow: column nowrap;
     position: relative;
-    border-radius: 20px;
     z-index: 1;
     border-radius: 20px;
     border: 1px solid rgb(44, 47, 54);
@@ -17,8 +16,6 @@
     flex-flow: row nowrap;
     -webkit-box-align: center;
     align-items: center;
-    color: rgb(255, 255, 255);
-    font-size: 0.75rem;
     line-height: 1rem;
     padding: 0.75rem 1rem 0px;
     box-sizing: border-box;
@@ -64,7 +61,6 @@
     font-size: 14px;
     color: rgb(195, 197, 203);
     padding: 10px;
-    // text-align: right;
 
     &-amount {
       margin-left: 5px;
