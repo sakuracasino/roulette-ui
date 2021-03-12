@@ -1,0 +1,61 @@
+@keyframes expandBet {
+  0% {
+    max-height: 0;
+  }
+  100% {
+    max-height: 53px;
+  }
+}
+
+@keyframes hideBet {
+  0% {
+    max-height: 53px;
+  }
+  100% {
+    max-height: 0;
+  }
+}
+
+.BetPool {
+  min-width: 300px;
+  text-align: right;
+
+  &__bets {
+    background-color: rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border: 1px solid rgb(64, 68, 79);
+  }
+
+  &__bet {
+    border-bottom: 1px solid rgba(64, 68, 79, 0.5);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    align-items: center;
+    overflow: hidden;
+    transition: all 0.25s ease-out;
+    animation: 0.15s ease-out 0s 1 expandBet;
+    height: 53px;
+
+    &--hidden {
+      animation: hideBet 0.15s ease-out forwards;
+      border: 0;
+    }
+
+    &__remove {
+      cursor: pointer;
+    }
+  }
+
+  &__no-bets {
+    text-align: center;
+    padding: 30px 0;
+    font-style: italic;
+    color: #b4b6bc
+  }
+}

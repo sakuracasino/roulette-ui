@@ -1,24 +1,20 @@
 import React from 'react';
 import Dialog from './Dialog';
+import BetBadge from './BetBadge';
 import {BetCell} from '../types.d';
-import {getBetMultiplier, getBetDescription, getBetColor} from '../libs/utils';
+import {getBetMultiplier} from '../libs/utils';
 import './BetFormDialog.scss';
 
-const BetCellInfo = ({bet}: {bet: BetCell}) => {
-  const betValue = getBetDescription(bet);
-  const betColor = getBetColor(bet);
-
-  return (
-    <div className="BetFormDialog__bet-info">
-      <div className="BetFormDialog__bet-info__description">
-        Betting on <span className="BetFormDialog__bet-info__value" data-color={betColor}>{betValue}</span>
-      </div>
-      <div className="BetFormDialog__bet-info__multiplier">
-        x{getBetMultiplier(bet)}
-      </div>
+const BetCellInfo = ({bet}: {bet: BetCell}) => (
+  <div className="BetFormDialog__bet-info">
+    <div className="BetFormDialog__bet-info__description">
+      Betting on <BetBadge bet={bet} />
     </div>
-  );
-};
+    <div className="BetFormDialog__bet-info__multiplier">
+      x{getBetMultiplier(bet)}
+    </div>
+  </div>
+);
 
 const BetFormDialog = (props) => {
   const {open, bet, onInputChange, onClose, onBetPlace} = props;

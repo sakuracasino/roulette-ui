@@ -7,6 +7,12 @@
   }
 
   .react-responsive-modal-closeButton {
-    color: white;
+    fill: rgb(207, 207, 207);
+    &:hover {
+      fill: white;
+    }
+    &:focus {
+      outline: none;
+    }
   }
 }

@@ -5,6 +5,7 @@ import BetPage from '../components/BetPage';
 const mapStateToProps = ({bets}) => {
   return {
     bets: bets.betPool,
+    betHistory: bets.history,
   };
 };
 

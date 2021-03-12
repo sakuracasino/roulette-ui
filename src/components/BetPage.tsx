@@ -7,6 +7,7 @@ const BetPage = function (props) {
     <div>
       <BetPlacer
         bets={props.bets}
+        betHistory={props.betHistory}
         onAddBet={props.addBet}
         onRemoveBet={props.removeBet}
       />

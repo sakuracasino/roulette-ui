@@ -10,11 +10,12 @@ import './BetPlacer.scss';
 
 type BetPlacerProps = {
   bets: Bet[];
+  betHistory: Bet[],
   onRemoveBet: (index: number) => void;
   onAddBet: (bet: Bet) => void;
 }
 
-const BetPlacer = function ({bets, onRemoveBet, onAddBet}: BetPlacerProps) {
+const BetPlacer = function ({bets, betHistory, onRemoveBet, onAddBet}: BetPlacerProps) {
 
   const [betFormOpened, setBetFormOpened] = useState(false);
   const [betForm, setBetForm] = useState({value: 0, type: BetType.Number, amount: 0});
@@ -43,7 +44,7 @@ const BetPlacer = function ({bets, onRemoveBet, onAddBet}: BetPlacerProps) {
   return (
     <div className="BetPlacer">
       <div className="BetPlacer__bet-pool">
-        <BetPool bets={bets} onRemoveClick={onRemoveBet}/>
+        <BetPool bets={bets} betHistory={betHistory} onRemoveClick={onRemoveBet}/>
       </div>
       <div className="BetPlacer__bet-layout">
         <BetLayout bets={bets} onCellClick={handleCellClick}/>

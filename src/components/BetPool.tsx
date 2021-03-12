@@ -1,47 +1,48 @@
 import React from 'react';
 import classNames from 'classnames';
-import {getBetDescription} from '../libs/utils';
-import {Bet, BetType} from '../types.d';
+import BetBadge from './BetBadge';
+import {Bet} from '../types.d';
 
 import './BetPool.scss';
 
-const renderBet = function (onRemoveClick: (index) => void, bet: Bet, index: number) {
+const renderBet = function (validIds: number[], onRemoveClick: (index) => void, bet: Bet, index: number) {
   const betClass = classNames({
     'BetPool__bet': true,
-    'BetPool__bet--number': bet.type === BetType.Number,
-    'BetPool__bet--color': bet.type === BetType.Color,
-    'BetPool__bet--even': bet.type === BetType.Even,
-    'BetPool__bet--column': bet.type === BetType.Column,
-    'BetPool__bet--dozen': bet.type === BetType.Dozen,
-    'BetPool__bet--half': bet.type === BetType.Half,
+    'BetPool__bet--hidden': !validIds.includes(bet.id),
   });
 
-  const description = getBetDescription(bet);
-
   return (
-    <li className={betClass} key={`${index}`}>
-      <span className="BetPool__bet__amount">
-        ${bet.amount},
-      </span>
-      <span className="BetPool__bet__description">
-        {description}, 
-      </span>
-      <span className="BetPool__bet__remove" onClick={() => onRemoveClick(index)}>
-        x
-      </span>
-    </li>
+    <div className={betClass} key={`${index}`}>
+      <div className="BetPool__bet__amount">
+        ${bet.amount}
+      </div>
+      <div className="BetPool__bet__description">
+        <BetBadge bet={bet} />
+      </div>
+      <div className="BetPool__bet__remove" onClick={() => onRemoveClick(bet.id)}>
+        <i className="fas fa-times-circle"></i>
+      </div>
+    </div>
   );
 }
 
-const BetPool = function (props: {onRemoveClick: (index: number) => void, bets: Bet[]}) {
-  const {bets, onRemoveClick} = props;
+const renderNoBets = () => (
+  <div className="BetPool__no-bets">
+    No bets
+  </div>
+);
+
+const BetPool = function (props: {onRemoveClick: (index: number) => void, bets: Bet[], betHistory: Bet[]}) {
+  const {bets, betHistory, onRemoveClick} = props;
   const totalBet = bets.reduce((total, bet) => total + bet.amount, 0);
+  const validIds = bets.map(bet => bet.id);
   return (
     <div className="BetPool">
       <div className="BetPool__total">Total: ${totalBet.toFixed(2)}</div>
-      <ul className="BetPool__bets">
-        {bets.map(renderBet.bind(this, onRemoveClick))}
-      </ul>
+      <div className="BetPool__bets">
+        {betHistory.map(renderBet.bind(this, validIds, onRemoveClick))}
+        {bets.length ? null : renderNoBets()}
+      </div>
     </div>
   )
 };

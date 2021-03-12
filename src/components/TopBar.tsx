@@ -10,6 +10,7 @@ export default function TopBar() {
         <img className="TopBar__logo" src={RouletteLogo} />
         <ul className="TopBar__menu">
           <li className="active">Bet</li>
+          <li>Deposit</li>
           <li>Pool</li>
         </ul>
       </div>
