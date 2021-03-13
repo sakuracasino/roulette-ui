@@ -54,9 +54,9 @@ export const getBetSetPayouts = (bets: Bet[]) => {
     const matchingBets: BetMatcher[] = [
       [BetType.Number, (bet: Bet) => bet.value === result],
       [BetType.Color, (bet: Bet) => bet.value === getNumberColor(result)],
-      [BetType.Even, (bet: Bet) => bet.value === result % 2],
-      [BetType.Half, (bet: Bet) => (bet.value ? (result > 19) : (result <= 19))],
-      [BetType.Column, (bet: Bet) => bet.value === result % 3],
+      [BetType.Even, (bet: Bet) => (bet.value === result % 2 && !!result)],
+      [BetType.Half, (bet: Bet) => (bet.value ? (result > 19) : (result <= 19)) && !!result],
+      [BetType.Column, (bet: Bet) => bet.value === result % 3 && !!result],
       [BetType.Dozen, (bet: Bet) => bet.value * 12 < result && result <= (bet.value + 1) * 12],
     ];
 

@@ -139,7 +139,23 @@ function getCellMap(width: number): {name: string, areas: BetCellGraphic[]} {
       }
     ),
   }
-}
+};
+
+const renderPayout = (payout: number): string => {
+  let result = payout > 0 ? '+' : '';
+
+  if (Math.abs(payout) >= 100000) {
+    result += `${Number((payout / 1000).toFixed(0))}k`;
+  } else if (Math.abs(payout) >= 10000) {
+    result += `${Number((payout / 1000).toFixed(1))}k`;
+  } else if (Math.abs(payout) >= 1000) {
+    result += `${Number((payout / 1000).toFixed(2))}k`;
+  } else {
+    result += Number(payout.toFixed(2));
+  }
+
+  return result;
+};
 
 const BetLayout = ({bets, imgWidth, onCellClick, displayPayouts}: { bets: Bet[], imgWidth?: number, onCellClick: (cell: BetCell) => void, displayPayouts?: boolean }) => {
   const classes = classNames({
@@ -147,7 +163,8 @@ const BetLayout = ({bets, imgWidth, onCellClick, displayPayouts}: { bets: Bet[],
     'BetLayout--payouts': displayPayouts,
   });
   const map = getCellMap(imgWidth);
-  const numberAreas = map.areas.filter(x => x.type === BetType.Number).sort((a,b) => a.value - b.value);
+  const numberAreas = bets.length ? map.areas.filter(x => x.type === BetType.Number).sort((a, b) => a.value - b.value) : [];
+  const totalBet = bets.reduce((r, bet) => r + bet.amount, 0);
   const payouts = getBetSetPayouts(bets);
   const maxPayout = payouts.reduce((r, payout) => Math.max(r, payout), 0);
   const minPayout = payouts.reduce((r, payout) => Math.min(r, payout), Infinity);
@@ -185,15 +202,7 @@ const BetLayout = ({bets, imgWidth, onCellClick, displayPayouts}: { bets: Bet[],
               opacity,
             }}
           >
-            {
-              Math.abs(payout) > 1000
-                ? Math.abs(payout) > 10000
-                  ? Math.abs(payout) > 100000
-                    ? `${(payout / 1000).toFixed(0)}k`
-                    : `${(payout / 1000).toFixed(1)}k`
-                  : `${(payout / 1000).toFixed(2)}k`
-                : payout.toFixed(2)
-            }
+            {Math.abs(payout + totalBet) < 0.01 ? 'LOSE' : renderPayout(payout)}
           </div>
         );
       })}
