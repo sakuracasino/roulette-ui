@@ -22,7 +22,7 @@ const renderBet = function (validIds: number[], onRemoveClick: (index) => void, 
         <BetBadge bet={bet} />
       </div>
       <div className="BetPool__bet__remove" onClick={() => onRemoveClick(bet.id)}>
-        <i className="fas fa-times-circle"></i>
+        <i className="fas fa-times-circle" />
       </div>
     </div>
   );
@@ -34,11 +34,56 @@ const renderNoBets = () => (
   </div>
 );
 
-const BetPool = function (props: {onRemoveClick: (index: number) => void, bets: Bet[], betHistory: Bet[]}) {
-  const {bets, betHistory, onRemoveClick} = props;
+const Dice = () => (
+    <div className="BetPool__roll-dice">
+        <div id="die-1" className="die">
+            <div className="face face-1">
+                <div className="dot"></div>
+            </div>
+            <div className="face face-2">
+                <div className="dot"></div>
+                <div className="dot"></div>
+            </div>
+            <div className="face face-3">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+            </div>
+            <div className="face face-4">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+            </div>
+            <div className="face face-5">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+            </div>
+            <div className="face face-6">
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+                <div className="dot"></div>
+            </div>
+        </div>
+    </div>
+);
+
+const BetPool = (props: { onRemoveClick: (index: number) => void, bets: Bet[], betHistory: Bet[], showPayouts: () => void }) => {
+  const {
+    bets,
+    betHistory,
+    onRemoveClick,
+    showPayouts,
+  } = props;
   const totalBet = bets.reduce((total, bet) => total + bet.amount, 0);
   const maxWin = getBetSetPayouts(bets).reduce((r, payout) => Math.max(r, payout), 0);
-  const validIds = bets.map(bet => bet.id);
+  const validIds = bets.map((bet) => bet.id);
   return (
     <div className="BetPool">
       <div className="BetPool__total">
@@ -46,7 +91,10 @@ const BetPool = function (props: {onRemoveClick: (index: number) => void, bets: 
           Total: <span className="BetPool__total-number">${totalBet.toFixed(2)}</span>
         </div>
         <div className="BetPool__max-win">
-          Max win: <span className="BetPool__max-win-number">+${maxWin.toFixed(2)}</span>
+          Max win:
+            <span className="BetPool__max-win-number" onClick={showPayouts}>
+              +${maxWin.toFixed(2)}
+            </span>
         </div>
       </div>
       <div className="BetPool__bets">
@@ -55,46 +103,10 @@ const BetPool = function (props: {onRemoveClick: (index: number) => void, bets: 
       </div>
       {bets.length ? <button className="BetPool__roll">
         Roll
-        <div className="BetPool__roll-dice">
-          <div id="die-1" className="die">
-              <div className="face face-1">
-                  <div className="dot"></div>
-              </div>
-              <div className="face face-2">
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-              </div>
-              <div className="face face-3">
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-              </div>
-              <div className="face face-4">
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-              </div>
-              <div className="face face-5">
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-              </div>
-              <div className="face face-6">
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-                  <div className="dot"></div>
-              </div>
-          </div>
-      </div>
+        <Dice />
       </button> : null}
     </div>
-  )
+  );
 };
 
 export default BetPool;

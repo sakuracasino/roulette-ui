@@ -10,6 +10,9 @@ const BetPage = function (props) {
         betHistory={props.betHistory}
         onAddBet={props.addBet}
         onRemoveBet={props.removeBet}
+        displayPayouts={props.displayPayouts}
+        showPayouts={props.showPayouts}
+        hidePayouts={props.hidePayouts}
       />
     </div>
   );

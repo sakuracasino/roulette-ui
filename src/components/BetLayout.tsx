@@ -157,7 +157,46 @@ const renderPayout = (payout: number): string => {
   return result;
 };
 
-const BetLayout = ({bets, imgWidth, onCellClick, displayPayouts}: { bets: Bet[], imgWidth?: number, onCellClick: (cell: BetCell) => void, displayPayouts?: boolean }) => {
+type MenuProps = {
+  displayPayouts: boolean,
+  showPayouts: () => void,
+  hidePayouts: () => void,
+};
+
+const BetLayoutMenu = ({ displayPayouts, showPayouts, hidePayouts }: MenuProps) => (
+  <ul className="BetLayout__menu">
+    <li
+      className={classNames({ 'BetLayout__menu-item': true, 'selected': !displayPayouts })}
+      onClick={hidePayouts}
+    >
+      Bets
+    </li>
+    <li
+      className={classNames({ 'BetLayout__menu-item': true, 'selected': displayPayouts })}
+      onClick={showPayouts}
+    >
+      Possible outcomes
+    </li>
+  </ul>
+);
+
+type BetLayoutProps = {
+  bets: Bet[],
+  imgWidth?: number,
+  displayPayouts?: boolean,
+  onCellClick: (cell: BetCell) => void,
+  showPayouts: () => void,
+  hidePayouts: () => void,
+};
+
+const BetLayout = ({
+  bets,
+  imgWidth,
+  onCellClick,
+  displayPayouts,
+  showPayouts,
+  hidePayouts,
+}: BetLayoutProps) => {
   const classes = classNames({
     'BetLayout': true,
     'BetLayout--payouts': displayPayouts,
@@ -171,55 +210,66 @@ const BetLayout = ({bets, imgWidth, onCellClick, displayPayouts}: { bets: Bet[],
 
   return (
     <div className={classes}>
-      {numberAreas.map((area) => {
-        const payout = payouts[area.value];
-        let height = Math.abs(area.coords[2] - area.coords[0]);
-        let width = Math.abs(area.coords[3] - area.coords[1]);
-        let opacity = (payout > 0 ? payout / maxPayout : payout / minPayout) || 0;
-        let color = (payout > 0 ? 'green' : '#d81617');
-        let top = area.coords[1] + height / 2;
-        let left = area.coords[0] - height / 2;
-        if (area.value === 0) {
-          height = Math.abs(area.coords[4] - area.coords[0]);
-          width = Math.abs(area.coords[7] - area.coords[3]);
-          top = area.coords[1] - height / 2;
-          left = area.coords[0] - width / 2 + height / 2;
+      <BetLayoutMenu
+        displayPayouts={displayPayouts}
+        showPayouts={showPayouts}
+        hidePayouts={hidePayouts}
+      />
+      <div className="BetLayout__layout">
+        {displayPayouts && numberAreas.map((area, index) => {
+          const payout = payouts[area.value];
+          let height = Math.abs(area.coords[2] - area.coords[0]);
+          let width = Math.abs(area.coords[3] - area.coords[1]);
+          let opacity = (payout > 0 ? payout / maxPayout : payout / minPayout) || 0;
+          let color = (payout > 0 ? 'green' : '#d81617');
+          let top = area.coords[1] + height / 2;
+          let left = area.coords[0] - height / 2;
+          if (area.value === 0) {
+            height = Math.abs(area.coords[4] - area.coords[0]);
+            width = Math.abs(area.coords[7] - area.coords[3]);
+            top = area.coords[1] - height / 2;
+            left = area.coords[0] - width / 2 + height / 2;
+          }
+          if (opacity < 0.4) {
+            opacity = 0.5;
+            color = 'darkgray';
+          }
+          return (
+            <div
+              className="BetLayout__payout"
+              key={`bet-outcome__${index}`}
+              style={{
+                width,
+                height,
+                top,
+                left,
+                lineHeight: `${height}px`,
+                color,
+                opacity,
+              }}
+            >
+              {Math.abs(payout + totalBet) < 0.01 ? 'LOSE' : renderPayout(payout)}
+            </div>
+          );
+        })}
+        {
+          !displayPayouts
+            ? <ImageMapper
+                width={imgWidth}
+                src={BetTable}
+                map={map}
+                onClick={onCellClick}
+                onImageClick={(e) => console.log(e.clientX-e.target.getBoundingClientRect().left, e.clientY-e.target.getBoundingClientRect().top)}
+              />
+            : <img src={BetTable} width={imgWidth} />
         }
-        if (opacity < 0.4) {
-          opacity = 0.5;
-          color = 'darkgray';
-        }
-        return (
-          <div
-            className="BetLayout__payout"
-            style={{
-              width,
-              height,
-              top,
-              left,
-              lineHeight: `${height}px`,
-              color,
-              opacity,
-            }}
-          >
-            {Math.abs(payout + totalBet) < 0.01 ? 'LOSE' : renderPayout(payout)}
-          </div>
-        );
-      })}
-      <ImageMapper
-        width={imgWidth}
-        src={BetTable}
-        map={map}
-        onClick={onCellClick}
-        onImageClick={(e) => console.log(e.clientX-e.target.getBoundingClientRect().left, e.clientY-e.target.getBoundingClientRect().top)}
-        />
+      </div>
     </div>
   );
 };
 
 BetLayout.defaultProps = {
   imgWidth: 600,
-  displayPayouts: false,
 };
 
 export default BetLayout;

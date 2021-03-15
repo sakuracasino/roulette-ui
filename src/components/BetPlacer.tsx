@@ -1,24 +1,27 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import BetPool from './BetPool';
 import BetLayout from './BetLayout';
 import BetFormDialog from './BetFormDialog';
+import RollDialog from './RollDialog';
 
-import {BetCell, BetType, Bet} from '../types.d';
+import { BetCell, BetType, Bet } from '../types.d';
 
 import './BetPlacer.scss';
 
 type BetPlacerProps = {
-  bets: Bet[];
+  bets: Bet[],
   betHistory: Bet[],
-  onRemoveBet: (index: number) => void;
-  onAddBet: (bet: Bet) => void;
-}
+  onRemoveBet: (index: number) => void,
+  onAddBet: (bet: Bet) => void,
+  displayPayouts: boolean,
+};
 
-const BetPlacer = function ({bets, betHistory, onRemoveBet, onAddBet}: BetPlacerProps) {
+const BetPlacer = ({bets, betHistory, onRemoveBet, onAddBet, showPayouts, hidePayouts, displayPayouts}: BetPlacerProps) => {
 
   const [betFormOpened, setBetFormOpened] = useState(false);
   const [betForm, setBetForm] = useState({value: 0, type: BetType.Number, amount: 0});
+  const rollDialogOpened = true;
 
   const onOpenBetForm = (bet: Bet) => {
     setBetForm(bet);
@@ -44,10 +47,21 @@ const BetPlacer = function ({bets, betHistory, onRemoveBet, onAddBet}: BetPlacer
   return (
     <div className="BetPlacer">
       <div className="BetPlacer__bet-pool">
-        <BetPool bets={bets} betHistory={betHistory} onRemoveClick={onRemoveBet}/>
+        <BetPool
+          bets={bets}
+          betHistory={betHistory}
+          onRemoveClick={onRemoveBet}
+          showPayouts={showPayouts}
+        />
       </div>
       <div className="BetPlacer__bet-layout">
-        <BetLayout bets={bets} onCellClick={handleCellClick} displayPayouts={true} />
+        <BetLayout
+          bets={bets}
+          onCellClick={handleCellClick}
+          displayPayouts={displayPayouts}
+          showPayouts={showPayouts}
+          hidePayouts={hidePayouts}
+        />
       </div>
       <BetFormDialog
         open={betFormOpened}
@@ -57,7 +71,12 @@ const BetPlacer = function ({bets, betHistory, onRemoveBet, onAddBet}: BetPlacer
           onAddBet({...betForm, amount: Number(betForm.amount)});
           onCloseBetForm();
         }}
-        onClose={onCloseBetForm} />
+        onClose={onCloseBetForm}
+      />
+      <RollDialog
+        opened={false}
+        onClose={() => {}}
+      />
     </div>
   );
 };

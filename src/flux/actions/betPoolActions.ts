@@ -19,7 +19,7 @@ export const clearBets = (): { type: string } => ({
   type: CLEAR_BETS,
 });
 
-export const displayPayouts = (): { type: string, payload: boolean } => ({
+export const showPayouts = (): { type: string, payload: boolean } => ({
   type: TOGGLE_DISPLAY_PAYOUT,
   payload: true,
 });

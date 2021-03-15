@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import {ADD_BET, CLEAR_BETS, displayPayouts, REMOVE_BET, TOGGLE_DISPLAY_PAYOUT} from '../actions/betPoolActions';
+import { ADD_BET, CLEAR_BETS, REMOVE_BET, TOGGLE_DISPLAY_PAYOUT } from '../actions/betPoolActions';
 import { Bet, BetType } from '../../types.d';
 
 const initialBetPool: Bet[] = [
@@ -23,13 +23,16 @@ const initialState: BetPoolReducerStateType = {
   displayPayouts: false,
 };
 
-export default function betPoolReducer(state = initialState, action: string) {
-  const {type, payload} = action;
+export default function betPoolReducer(
+  state = initialState,
+  action: { type: string, payload: any },
+) {
+  const { type, payload } = action;
 
   switch (type) {
     case ADD_BET:
-      const existingBetIndex = state.betPool.findIndex((bet) => bet.type == payload.type && bet.value == payload.value);
-      const bet = {...payload, id: uniqueId('bet_pooled_')};
+      const existingBetIndex = state.betPool.findIndex((bet) => bet.type === payload.type && bet.value === payload.value);
+      const bet = { ...payload, id: uniqueId('bet_pooled_') };
       return {
         ...state,
         betPool: [
@@ -53,7 +56,7 @@ export default function betPoolReducer(state = initialState, action: string) {
         ...state,
         displayPayouts: payload,
       };
+    default:
+      return state;
   }
-
-  return state;
 }

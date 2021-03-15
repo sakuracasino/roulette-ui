@@ -1,10 +1,16 @@
 .BetLayout {
   position: relative;
+
   &--payouts {
     img {
       filter: grayscale(100%);
       opacity: 0.05;
     }
+  }
+  
+  &__layout {
+    position: relative;
+    border: 1px solid rgb(64, 68, 79);
   }
 
   &__payout {
@@ -15,5 +21,31 @@
     font-weight: bold;
     text-align: center;
     cursor: default;
+  }
+
+  &__menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+
+    &-item {
+      display: inline-block;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.1);
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-out;
+      margin-right: 5px;
+
+      &.selected {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    }
   }
 }

@@ -1,0 +1,25 @@
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.roulette-graphic {
+  position: relative;
+  overflow: hidden;
+
+  &__border {
+    width: 400px;
+  }
+
+  &__interior {
+    position: absolute;
+    width: 400px;
+    left: 0;
+    top: 0;
+    animation: rotation 3s infinite linear;
+  }
+}
