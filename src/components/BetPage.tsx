@@ -13,6 +13,9 @@ const BetPage = function (props) {
         displayPayouts={props.displayPayouts}
         showPayouts={props.showPayouts}
         hidePayouts={props.hidePayouts}
+        displayRollDialog={props.displayRollDialog}
+        showRollDialog={props.showRollDialog}
+        hideRollDialog={props.hideRollDialog}
       />
     </div>
   );

@@ -17,8 +17,19 @@ type BetPlacerProps = {
   displayPayouts: boolean,
 };
 
-const BetPlacer = ({bets, betHistory, onRemoveBet, onAddBet, showPayouts, hidePayouts, displayPayouts}: BetPlacerProps) => {
-
+const BetPlacer = (props: BetPlacerProps) => {
+  const {
+    bets,
+    betHistory,
+    onRemoveBet,
+    onAddBet,
+    showPayouts,
+    hidePayouts,
+    displayPayouts,
+    displayRollDialog,
+    showRollDialog,
+    hideRollDialog,
+  } = props;
   const [betFormOpened, setBetFormOpened] = useState(false);
   const [betForm, setBetForm] = useState({value: 0, type: BetType.Number, amount: 0});
   const rollDialogOpened = true;
@@ -52,6 +63,7 @@ const BetPlacer = ({bets, betHistory, onRemoveBet, onAddBet, showPayouts, hidePa
           betHistory={betHistory}
           onRemoveClick={onRemoveBet}
           showPayouts={showPayouts}
+          onRollClick={showRollDialog}
         />
       </div>
       <div className="BetPlacer__bet-layout">
@@ -74,8 +86,9 @@ const BetPlacer = ({bets, betHistory, onRemoveBet, onAddBet, showPayouts, hidePa
         onClose={onCloseBetForm}
       />
       <RollDialog
-        opened={false}
-        onClose={() => {}}
+        bets={bets}
+        opened={displayRollDialog}
+        onClose={hideRollDialog}
       />
     </div>
   );

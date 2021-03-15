@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import { ADD_BET, CLEAR_BETS, REMOVE_BET, TOGGLE_DISPLAY_PAYOUT } from '../actions/betPoolActions';
+import { ADD_BET, CLEAR_BETS, REMOVE_BET, TOGGLE_DISPLAY_PAYOUT, TOGGLE_DISPLAY_ROLL } from '../actions/betPoolActions';
 import { Bet, BetType } from '../../types.d';
 
 const initialBetPool: Bet[] = [
@@ -9,18 +9,26 @@ const initialBetPool: Bet[] = [
     value: 0,
     amount: 2.13,
   },
+  {
+    id: uniqueId('bet_pooled_'),
+    type: BetType.Half,
+    value: 0,
+    amount: 4,
+  },
 ];
 
 type BetPoolReducerStateType = {
   betPool: Bet[];
   history: Bet[];
   displayPayouts: boolean;
+  displayRollDialog: boolean;
 };
 
 const initialState: BetPoolReducerStateType = {
   betPool: initialBetPool,
   history: initialBetPool,
   displayPayouts: false,
+  displayRollDialog: false,
 };
 
 export default function betPoolReducer(
@@ -55,6 +63,11 @@ export default function betPoolReducer(
       return {
         ...state,
         displayPayouts: payload,
+      };
+    case TOGGLE_DISPLAY_ROLL:
+      return {
+        ...state,
+        displayRollDialog: payload,
       };
     default:
       return state;

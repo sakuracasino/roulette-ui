@@ -1,0 +1,74 @@
+.RollDialog {
+  min-width: 400px;
+
+  &__container {
+    .react-responsive-modal-modal {
+      padding: 0;
+    }
+  }
+
+  &__top-area {
+    padding: 1.2rem;
+    padding-bottom: 0;
+  }
+
+  &__bottom-area {
+    padding: 1.2rem;
+    background-color: rgb(44, 47, 54);
+  }
+
+  &__title {
+    margin: 0;
+    min-width: 0;
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  &__bets {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  &__bet {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 0;
+    margin-bottom: 3px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+
+    &-amount {
+
+    }
+  }
+
+  &__fees {
+
+  }
+
+  &__fee {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+
+    &-description {
+      font-weight: 400;
+      font-size: 14px;
+      color: rgb(195, 197, 203);
+    }
+
+    &-price {
+      font-weight: 500;
+      font-size: 14px;
+
+      &.highlighted {
+        color: rgb(33, 114, 229);
+      }
+    }
+  }
+
+  &__action {
+    margin-top: 30px;
+  }
+}

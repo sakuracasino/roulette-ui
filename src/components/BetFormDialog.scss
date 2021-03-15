@@ -71,36 +71,6 @@
 
   &__place-bet-button {
     margin-top: 15px;
-    padding: 18px;
-    width: 100%;
-    font-size: 20px;
-    font-weight: 500;
-    text-align: center;
-    border-radius: 20px;
-    outline: none;
-    border: 1px solid transparent;
-    text-decoration: none;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-    -webkit-box-align: center;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-    background-color: rgb(33, 114, 229);
-    color: white;
-
-    &[disabled] {
-      background-color: rgb(64, 68, 79);
-      color: rgb(108, 114, 132);
-      cursor: auto;
-      box-shadow: none;
-      border: 1px solid transparent;
-      outline: none;
-      opacity: 1;
-    }
   }
 
   &__bet-info {

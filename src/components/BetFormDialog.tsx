@@ -4,6 +4,7 @@ import BetBadge from './BetBadge';
 import {BetCell} from '../types.d';
 import {getBetMultiplier} from '../libs/utils';
 import './BetFormDialog.scss';
+import BigButton from "./BigButton";
 
 const BetCellInfo = ({bet}: {bet: BetCell}) => (
   <div className="BetFormDialog__bet-info">
@@ -60,9 +61,9 @@ const BetFormDialog = (props) => {
             ${betWin}
           </span>
         </div>
-        <button className="BetFormDialog__place-bet-button" onClick={onBetPlace} disabled={placeBetDisabled}>
+        <BigButton className="BetFormDialog__place-bet-button" onClick={onBetPlace} disabled={placeBetDisabled}>
           {placeBetDisabled ? 'Enter an amount' : 'Place bet'}
-        </button>
+        </BigButton>
       </div>
     </Dialog>
   );

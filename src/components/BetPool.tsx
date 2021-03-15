@@ -26,7 +26,7 @@ const renderBet = function (validIds: number[], onRemoveClick: (index) => void, 
       </div>
     </div>
   );
-}
+};
 
 const renderNoBets = () => (
   <div className="BetPool__no-bets">
@@ -80,6 +80,7 @@ const BetPool = (props: { onRemoveClick: (index: number) => void, bets: Bet[], b
     betHistory,
     onRemoveClick,
     showPayouts,
+    onRollClick,
   } = props;
   const totalBet = bets.reduce((total, bet) => total + bet.amount, 0);
   const maxWin = getBetSetPayouts(bets).reduce((r, payout) => Math.max(r, payout), 0);
@@ -101,7 +102,7 @@ const BetPool = (props: { onRemoveClick: (index: number) => void, bets: Bet[], b
         {betHistory.map(renderBet.bind(this, validIds, onRemoveClick))}
         {bets.length ? null : renderNoBets()}
       </div>
-      {bets.length ? <button className="BetPool__roll">
+      {bets.length ? <button className="BetPool__roll" onClick={onRollClick}>
         Roll
         <Dice />
       </button> : null}

@@ -4,6 +4,7 @@ export const ADD_BET = 'ADD_BET';
 export const REMOVE_BET = 'REMOVE_BET';
 export const CLEAR_BETS = 'CLEAR_BETS';
 export const TOGGLE_DISPLAY_PAYOUT = 'TOGGLE_DISPLAY_PAYOUT';
+export const TOGGLE_DISPLAY_ROLL = 'TOGGLE_DISPLAY_ROLL';
 
 export const addBet = (bet: Bet): { type: string, payload: Bet } => ({
   type: ADD_BET,
@@ -26,5 +27,15 @@ export const showPayouts = (): { type: string, payload: boolean } => ({
 
 export const hidePayouts = (): { type: string, payload: boolean } => ({
   type: TOGGLE_DISPLAY_PAYOUT,
+  payload: false,
+});
+
+export const showRollDialog = (): { type: string, payload: boolean } => ({
+  type: TOGGLE_DISPLAY_ROLL,
+  payload: true,
+});
+
+export const hideRollDialog = (): { type: string, payload: boolean } => ({
+  type: TOGGLE_DISPLAY_ROLL,
   payload: false,
 });
