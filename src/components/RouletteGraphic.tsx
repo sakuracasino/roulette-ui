@@ -1,6 +1,7 @@
 import React from 'react';
-
+// @ts-ignore
 import RouletteBorderImage from '../assets/roulette-border.png';
+// @ts-ignore
 import RouletteInternalImage from '../assets/roulette-interior.png';
 
 import './RouletteGraphic.scss';

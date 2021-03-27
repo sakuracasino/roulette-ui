@@ -1,7 +1,7 @@
 import React from 'react';
 import Dialog from './Dialog';
 import BetBadge from './BetBadge';
-import {BetCell} from '../types.d';
+import {Bet, BetCell} from '../types.d';
 import {getBetMultiplier} from '../libs/utils';
 import './BetFormDialog.scss';
 import BigButton from "./BigButton";
@@ -17,13 +17,21 @@ const BetCellInfo = ({bet}: {bet: BetCell}) => (
   </div>
 );
 
-const BetFormDialog = (props) => {
+type BetFormDialogProps = {
+  open: boolean,
+  bet: Bet,
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onClose: () => void,
+  onBetPlace: () => void,
+};
+
+const BetFormDialog = (props: BetFormDialogProps) => {
   const {open, bet, onInputChange, onClose, onBetPlace} = props;
 
   const betMultiply = getBetMultiplier(bet);
   const betWin = Math.round((bet.amount || 0) * betMultiply * 100) / 100;
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (
       isNaN(Number(value)) ||
@@ -61,7 +69,7 @@ const BetFormDialog = (props) => {
             ${betWin}
           </span>
         </div>
-        <BigButton className="BetFormDialog__place-bet-button" onClick={onBetPlace} disabled={placeBetDisabled}>
+        <BigButton className="BetFormDialog__place-bet-button" onClick={() => onBetPlace()} disabled={placeBetDisabled}>
           {placeBetDisabled ? 'Enter an amount' : 'Place bet'}
         </BigButton>
       </div>

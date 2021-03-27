@@ -1,5 +1,8 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { AppState } from '../flux/store';
+import { toggleRollDialog } from '../flux/slices/betsSlice';
 import Dialog from './Dialog';
 import BetBadge from './BetBadge';
 import BigButton from './BigButton';
@@ -7,20 +10,16 @@ import { Bet } from '../types';
 import RouletteGraphic from './RouletteGraphic';
 import config from '../config';
 
-type RollDialogProps = {
-  opened: boolean;
-  onClose: () => void;
-  bets: Bet[],
-};
-
 import './RollDialog.scss';
-const RollDialog = (props: RollDialogProps) => {
-  const { opened, onClose, bets } = props;
+const RollDialog = () => {
+  const dispatch = useDispatch();
+  const bets: Bet[] = useSelector((state: AppState) => state.bets.betPool);
+  const opened: boolean = useSelector((state: AppState) => state.bets.rollDialogDisplayed);
   const betAmount = bets.reduce((total, bet) => total + bet.amount, 0);
   const betFee = 0.10;
 
   return (
-    <Dialog open={opened} onCloseModal={onClose} className="RollDialog__container">
+    <Dialog open={opened} onCloseModal={() => dispatch(toggleRollDialog(false))} className="RollDialog__container">
       <div className="RollDialog">
         <div className="RollDialog__top-area">
           <div className="RollDialog__title">Confirm Roll</div>

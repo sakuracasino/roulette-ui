@@ -1,38 +1,22 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addBet } from '../flux/slices/betsSlice';
+import { AppState } from '../flux/store';
+import { BetCell, BetType, Bet } from '../types.d';
 
 import BetPool from './BetPool';
 import BetLayout from './BetLayout';
 import BetFormDialog from './BetFormDialog';
 import RollDialog from './RollDialog';
 
-import { BetCell, BetType, Bet } from '../types.d';
-
 import './BetPlacer.scss';
 
-type BetPlacerProps = {
-  bets: Bet[],
-  betHistory: Bet[],
-  onRemoveBet: (index: number) => void,
-  onAddBet: (bet: Bet) => void,
-  displayPayouts: boolean,
-};
-
-const BetPlacer = (props: BetPlacerProps) => {
-  const {
-    bets,
-    betHistory,
-    onRemoveBet,
-    onAddBet,
-    showPayouts,
-    hidePayouts,
-    displayPayouts,
-    displayRollDialog,
-    showRollDialog,
-    hideRollDialog,
-  } = props;
+const BetPlacer = () => {
+  const dispatch = useDispatch();
+  const bets: Bet[] = useSelector((state: AppState) => state.bets.betPool);
   const [betFormOpened, setBetFormOpened] = useState(false);
   const [betForm, setBetForm] = useState({value: 0, type: BetType.Number, amount: 0});
-  const rollDialogOpened = true;
 
   const onOpenBetForm = (bet: Bet) => {
     setBetForm(bet);
@@ -50,46 +34,30 @@ const BetPlacer = (props: BetPlacerProps) => {
     });
   };
 
-  const handleAmountChange = (event) => onOpenBetForm({
+  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => onOpenBetForm({
     ...betForm,
-    amount: event.target.value,
+    amount: Number(event.target.value),
   });
 
   return (
     <div className="BetPlacer">
       <div className="BetPlacer__bet-pool">
-        <BetPool
-          bets={bets}
-          betHistory={betHistory}
-          onRemoveClick={onRemoveBet}
-          showPayouts={showPayouts}
-          onRollClick={showRollDialog}
-        />
+        <BetPool />
       </div>
       <div className="BetPlacer__bet-layout">
-        <BetLayout
-          bets={bets}
-          onCellClick={handleCellClick}
-          displayPayouts={displayPayouts}
-          showPayouts={showPayouts}
-          hidePayouts={hidePayouts}
-        />
+        <BetLayout onCellClick={handleCellClick} />
       </div>
       <BetFormDialog
         open={betFormOpened}
         bet={betForm}
         onInputChange={handleAmountChange}
         onBetPlace={() => {
-          onAddBet({...betForm, amount: Number(betForm.amount)});
+          dispatch(addBet({...betForm, amount: Number(betForm.amount)}))
           onCloseBetForm();
         }}
         onClose={onCloseBetForm}
       />
-      <RollDialog
-        bets={bets}
-        opened={displayRollDialog}
-        onClose={hideRollDialog}
-      />
+      <RollDialog />
     </div>
   );
 };

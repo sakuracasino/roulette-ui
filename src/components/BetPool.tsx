@@ -1,13 +1,17 @@
 import React from 'react';
 import classNames from 'classnames';
-import BetBadge from './BetBadge';
+import { useSelector, useDispatch } from 'react-redux'
+
+import { AppState } from '../flux/store';
+import { removeBet, toggleRollDialog, togglePayouts } from '../flux/slices/betsSlice';
 import { Bet } from '../types.d';
 import { getBetSetPayouts } from '../libs/utils';
+import BetBadge from './BetBadge';
 
 import './BetPool.scss';
 import './Dice.scss';
 
-const renderBet = function (validIds: number[], onRemoveClick: (index) => void, bet: Bet, index: number) {
+const renderBet = function (validIds: string[], onRemoveClick: (id: string) => any, bet: Bet, index: number) {
   const betClass = classNames({
     'BetPool__bet': true,
     'BetPool__bet--hidden': !validIds.includes(bet.id),
@@ -74,14 +78,14 @@ const Dice = () => (
     </div>
 );
 
-const BetPool = (props: { onRemoveClick: (index: number) => void, bets: Bet[], betHistory: Bet[], showPayouts: () => void }) => {
-  const {
-    bets,
-    betHistory,
-    onRemoveClick,
-    showPayouts,
-    onRollClick,
-  } = props;
+const BetPool = () => {
+  const dispatch = useDispatch();
+  const onRemoveClick = (id: string) => dispatch(removeBet(id));
+  const onRollClick = () => dispatch(toggleRollDialog(true));
+  const onPayoutClick = () => dispatch(togglePayouts(true));
+
+  const bets: Bet[] = useSelector((state: AppState) => state.bets.betPool);
+  const betHistory: Bet[] = useSelector((state: AppState) => state.bets.history);
   const totalBet = bets.reduce((total, bet) => total + bet.amount, 0);
   const maxWin = getBetSetPayouts(bets).reduce((r, payout) => Math.max(r, payout), 0);
   const validIds = bets.map((bet) => bet.id);
@@ -93,7 +97,7 @@ const BetPool = (props: { onRemoveClick: (index: number) => void, bets: Bet[], b
         </div>
         <div className="BetPool__max-win">
           Max win:
-            <span className="BetPool__max-win-number" onClick={showPayouts}>
+            <span className="BetPool__max-win-number" onClick={onPayoutClick}>
               +${maxWin.toFixed(2)}
             </span>
         </div>

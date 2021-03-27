@@ -10,12 +10,12 @@ import '@fortawesome/fontawesome-free/js/brands'
 import './index.scss';
 
 import Layout from './components/Layout';
-import BetPageContainer from './containers/BetPageCointainer';
+import BetPage from './components/BetPage';
 
 ReactDOM.render(
   <Provider store={store}>
     <Layout>
-      <BetPageContainer />
+      <BetPage />
     </Layout>
   </Provider>,
   document.getElementById('root'),

@@ -1,5 +1,5 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { uniqueId } from 'lodash';
-import { ADD_BET, CLEAR_BETS, REMOVE_BET, TOGGLE_DISPLAY_PAYOUT, TOGGLE_DISPLAY_ROLL } from '../actions/betPoolActions';
 import { Bet, BetType } from '../../types.d';
 
 const initialBetPool: Bet[] = [
@@ -20,25 +20,22 @@ const initialBetPool: Bet[] = [
 type BetPoolReducerStateType = {
   betPool: Bet[];
   history: Bet[];
-  displayPayouts: boolean;
-  displayRollDialog: boolean;
+  payoutsDisplayed: boolean;
+  rollDialogDisplayed: boolean;
 };
 
 const initialState: BetPoolReducerStateType = {
   betPool: initialBetPool,
   history: initialBetPool,
-  displayPayouts: false,
-  displayRollDialog: false,
+  payoutsDisplayed: false,
+  rollDialogDisplayed: false,
 };
 
-export default function betPoolReducer(
-  state = initialState,
-  action: { type: string, payload: any },
-) {
-  const { type, payload } = action;
-
-  switch (type) {
-    case ADD_BET:
+const betsSlice = createSlice({
+  name: 'bets',
+  initialState,
+  reducers: {
+    addBet(state: BetPoolReducerStateType, { payload }: PayloadAction<Bet>) {
       const existingBetIndex = state.betPool.findIndex((bet) => bet.type === payload.type && bet.value === payload.value);
       const bet = { ...payload, id: uniqueId('bet_pooled_') };
       return {
@@ -49,27 +46,39 @@ export default function betPoolReducer(
         ],
         history: [...state.history, bet],
       };
-    case REMOVE_BET:
+    },
+    removeBet(state: BetPoolReducerStateType, { payload }: PayloadAction<string>) {
       return {
         ...state,
         betPool: state.betPool.filter((bet) => bet.id !== payload),
       };
-    case CLEAR_BETS:
+    },
+    clearBets(state: BetPoolReducerStateType) {
       return {
         ...state,
-        betPool: state.betPool.filter((bet) => bet.id !== payload),
+        betPool: [],
       };
-    case TOGGLE_DISPLAY_PAYOUT:
+    },
+    togglePayouts(state: BetPoolReducerStateType, { payload }: PayloadAction<boolean>) {
       return {
         ...state,
-        displayPayouts: payload,
+        payoutsDisplayed: payload,
       };
-    case TOGGLE_DISPLAY_ROLL:
+    },
+    toggleRollDialog(state: BetPoolReducerStateType, { payload }: PayloadAction<boolean>) {
       return {
         ...state,
-        displayRollDialog: payload,
+        rollDialogDisplayed: payload,
       };
-    default:
-      return state;
-  }
-}
+    },
+  },
+})
+
+export const {
+  addBet,
+  removeBet,
+  clearBets,
+  togglePayouts,
+  toggleRollDialog,
+} = betsSlice.actions;
+export default betsSlice.reducer;

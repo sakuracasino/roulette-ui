@@ -4,7 +4,15 @@ import { Modal } from 'react-responsive-modal';
 
 import 'react-responsive-modal/styles.css';
 import './Dialog.scss';
-const Dialog = function ({children, open, onCloseModal, className}) {
+
+type DialogProps = {
+  children?: React.ReactNode,
+  open: boolean,
+  onCloseModal: () => void,
+  className?: string,
+}
+
+const Dialog = function ({children, open, onCloseModal, className}: DialogProps) {
   return (
     <Modal
       open={open}

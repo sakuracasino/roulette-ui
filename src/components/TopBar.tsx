@@ -1,5 +1,6 @@
 import React from 'react';
 
+// @ts-ignore
 import RouletteLogo from '../assets/roulette-logo.svg';
 
 import './TopBar.scss';
