@@ -43,34 +43,4 @@
       }
     }
   }
-
-  &__right-menu {
-    button {
-      text-align: center;
-      outline: none;
-      text-decoration: none;
-      -webkit-box-pack: center;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-      font-size: 16px;
-      display: flex;
-      flex-flow: row nowrap;
-      width: 100%;
-      -webkit-box-align: center;
-      align-items: center;
-      padding: 0.5rem;
-      border-radius: 12px;
-      cursor: pointer;
-      user-select: none;
-      font-weight: 500;
-      background-color: rgba(21, 61, 111, 0.44);
-      border: 1px solid rgba(21, 61, 111, 0.44);
-      color: rgb(109, 168, 255);
-      &:hover {
-        border: 1px solid rgba(49, 95, 154, 0.44);
-        color: rgb(83, 153, 255);
-      }
-    }
-  }
 }

@@ -6,11 +6,13 @@ import {combineReducers} from 'redux';
 import {routerReducer} from 'react-router-redux';
 import {createBrowserHistory} from 'history';
 
-import betsReducer from './slices/betsSlice';
+import betPoolReducer from './slices/betPoolSlice';
+import networkReducer from './slices/networkSlice';
 
 const combinedReducers = combineReducers({
   routing: routerReducer,
-  bets: betsReducer,
+  betPool: betPoolReducer,
+  network: networkReducer,
 });
 
 const middlewares = [

@@ -1,0 +1,25 @@
+.Message {
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  border: 1px solid #40444f;
+  padding: 1rem;
+  
+  &--error {
+    color: #fd4040;
+    border: 1px solid #fd4040;
+  
+  }
+
+  &--info {
+    border: 1px solid #2172e5;
+  }
+
+  &--warning {
+    background-color: rgba(243, 132, 30, 0.2);
+    color: rgb(243, 132, 30);
+    border: 0;
+  }
+}

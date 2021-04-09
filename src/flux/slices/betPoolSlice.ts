@@ -18,30 +18,30 @@ const initialBetPool: Bet[] = [
 ];
 
 type BetPoolReducerStateType = {
-  betPool: Bet[];
+  bets: Bet[];
   history: Bet[];
   payoutsDisplayed: boolean;
   rollDialogDisplayed: boolean;
 };
 
 const initialState: BetPoolReducerStateType = {
-  betPool: initialBetPool,
+  bets: initialBetPool,
   history: initialBetPool,
   payoutsDisplayed: false,
   rollDialogDisplayed: false,
 };
 
-const betsSlice = createSlice({
-  name: 'bets',
+const betPoolSlice = createSlice({
+  name: 'betPool',
   initialState,
   reducers: {
     addBet(state: BetPoolReducerStateType, { payload }: PayloadAction<Bet>) {
-      const existingBetIndex = state.betPool.findIndex((bet) => bet.type === payload.type && bet.value === payload.value);
+      const existingBetIndex = state.bets.findIndex((bet) => bet.type === payload.type && bet.value === payload.value);
       const bet = { ...payload, id: uniqueId('bet_pooled_') };
       return {
         ...state,
-        betPool: [
-          ...state.betPool.filter((_, index) => index !== existingBetIndex),
+        bets: [
+          ...state.bets.filter((_, index) => index !== existingBetIndex),
           bet,
         ],
         history: [...state.history, bet],
@@ -50,13 +50,13 @@ const betsSlice = createSlice({
     removeBet(state: BetPoolReducerStateType, { payload }: PayloadAction<string>) {
       return {
         ...state,
-        betPool: state.betPool.filter((bet) => bet.id !== payload),
+        bets: state.bets.filter((bet) => bet.id !== payload),
       };
     },
     clearBets(state: BetPoolReducerStateType) {
       return {
         ...state,
-        betPool: [],
+        bets: [],
       };
     },
     togglePayouts(state: BetPoolReducerStateType, { payload }: PayloadAction<boolean>) {
@@ -80,5 +80,5 @@ export const {
   clearBets,
   togglePayouts,
   toggleRollDialog,
-} = betsSlice.actions;
-export default betsSlice.reducer;
+} = betPoolSlice.actions;
+export default betPoolSlice.reducer;

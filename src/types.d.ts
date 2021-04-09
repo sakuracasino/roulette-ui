@@ -22,3 +22,12 @@ export interface BetCellGraphic extends BetCell {
   coords: number[],
   strokeColor?: string,
 }
+
+export interface Network {
+  name: string;
+  chainId: number;
+  network_id: number;
+  network: string;
+  dai_address: string;
+  contract_address: string;
+}

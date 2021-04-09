@@ -10,7 +10,7 @@ import {getBetSetPayouts} from '../libs/utils';
 import {Bet, BetCell, BetCellGraphic, BetType,} from '../types.d';
 import './BetLayout.scss';
 import { AppState } from '../flux/store';
-import { togglePayouts } from '../flux/slices/betsSlice';
+import { togglePayouts } from '../flux/slices/betPoolSlice';
 
 const REFERENCE_WIDTH = 600;
 const REFERENCE_HEIGHT = 429;
@@ -237,8 +237,8 @@ const BetLayout = ({
   onCellClick,
 }: BetLayoutProps) => {
   const dispatch = useDispatch();
-  const bets: Bet[] = useSelector((state: AppState) => state.bets.betPool);
-  const payoutsDisplayed: boolean = useSelector((state: AppState) => state.bets.payoutsDisplayed);
+  const bets: Bet[] = useSelector((state: AppState) => state.betPool.bets);
+  const payoutsDisplayed: boolean = useSelector((state: AppState) => state.betPool.payoutsDisplayed);
   const onPayoutMenuClick = (payload: boolean) => dispatch(togglePayouts(payload));
 
   const map = getCellMap(imgWidth);

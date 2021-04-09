@@ -9,6 +9,7 @@ const BUILD_DIR = 'dist';
 module.exports = {
   entry: `${APP_DIR}/index.tsx`,
   mode: 'development',
+  devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, BUILD_DIR),
     compress: true,
@@ -24,9 +25,13 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
-        exclude: /node_modules/,
+        include: [
+          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'node_modules/ethereum-cryptography'),
+        ],
         use: ['babel-loader'],
       },
+      
       {
         test: /\.(css|scss)$/,
         use: [
@@ -52,6 +57,15 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
     modules: [APP_DIR, './node_modules'],
+    fallback: {
+      'https': false,
+      'http': false,
+      'crypto': false,
+      'assert': false,
+      'os': false,
+      'stream': false,
+      'Buffer': false,
+    },
   },
   plugins: [
     new ESLintPlugin(),
@@ -63,6 +77,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_DEBUG),
     }),
   ],
 }

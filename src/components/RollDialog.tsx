@@ -1,31 +1,56 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
+import { Web3Provider } from '@ethersproject/providers';
+import { BigNumber } from '@ethersproject/bignumber';
 
+import NetworkHelper from '../libs/NetworkHelper';
 import { AppState } from '../flux/store';
-import { toggleRollDialog } from '../flux/slices/betsSlice';
+import { toggleRollDialog } from '../flux/slices/betPoolSlice';
 import Dialog from './Dialog';
 import BetBadge from './BetBadge';
 import BigButton from './BigButton';
 import { Bet } from '../types';
 import RouletteGraphic from './RouletteGraphic';
 import config from '../config';
-
 import './RollDialog.scss';
+import { random32 } from '../libs/utils';
+import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
+
+const approveRoll = async (web3React: Web3ReactContextInterface<Web3Provider>, bets: Bet[]) => {
+  const networkHelper = new NetworkHelper(web3React);
+  const betsForContract = networkHelper.getBetsForContract(bets);
+  const totalAmountBN = betsForContract.reduce(
+    (amount, bet) => amount.add(BigNumber.from(bet.amount)),
+    BigNumber.from('0')
+  );
+  const roulette = networkHelper.getRouletteContract();
+  const signatureParams = await networkHelper.approveTokenAmount(totalAmountBN);
+  try {
+    await roulette.rollBets(betsForContract, `${random32()}`, ...signatureParams);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+
 const RollDialog = () => {
   const dispatch = useDispatch();
-  const bets: Bet[] = useSelector((state: AppState) => state.bets.betPool);
-  const opened: boolean = useSelector((state: AppState) => state.bets.rollDialogDisplayed);
+  const bets: Bet[] = useSelector((state: AppState) => state.betPool.bets);
+  const opened: boolean = useSelector((state: AppState) => state.betPool.rollDialogDisplayed);
   const betAmount = bets.reduce((total, bet) => total + bet.amount, 0);
-  const betFee = 0.10;
+  const web3React = useWeb3React<Web3Provider>();
+  const closeModal = () => dispatch(toggleRollDialog(false));
+  const betFee = 0.10; // TODO: Replace with contract value
 
   return (
-    <Dialog open={opened} onCloseModal={() => dispatch(toggleRollDialog(false))} className="RollDialog__container">
+    <Dialog open={opened} onCloseModal={closeModal} className="RollDialog__container">
       <div className="RollDialog">
         <div className="RollDialog__top-area">
           <div className="RollDialog__title">Confirm Roll</div>
           <div className="RollDialog__bets">
             {bets.map((bet) => (
-              <div className="RollDialog__bet">
+              <div className="RollDialog__bet" key={`rolldialog-bet-${bet.type}-${bet.value}-${bet.id}`}>
                 <div className="RollDialog__bet-amount">{bet.amount.toFixed(2)} {config.BET_TOKEN}</div>
                 <div className="RollDialog__bet-badge">
                   <BetBadge bet={bet} />
@@ -62,8 +87,8 @@ const RollDialog = () => {
             </div>
           </div>
           <div className="RollDialog__action">
-            <BigButton className="BetFormDialog__place-bet-button">
-              Confirm Roll
+            <BigButton className="BetFormDialog__place-bet-button" onClick={() => approveRoll(web3React, bets, betFee).then(closeModal)}>
+              Approve Roll
             </BigButton>
           </div>
         </div>

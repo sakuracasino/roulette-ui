@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { AppState } from '../flux/store';
-import { removeBet, toggleRollDialog, togglePayouts } from '../flux/slices/betsSlice';
+import { removeBet, toggleRollDialog, togglePayouts } from '../flux/slices/betPoolSlice';
 import { Bet } from '../types.d';
 import { getBetSetPayouts } from '../libs/utils';
 import BetBadge from './BetBadge';
@@ -84,8 +84,8 @@ const BetPool = () => {
   const onRollClick = () => dispatch(toggleRollDialog(true));
   const onPayoutClick = () => dispatch(togglePayouts(true));
 
-  const bets: Bet[] = useSelector((state: AppState) => state.bets.betPool);
-  const betHistory: Bet[] = useSelector((state: AppState) => state.bets.history);
+  const bets: Bet[] = useSelector((state: AppState) => state.betPool.bets);
+  const betHistory: Bet[] = useSelector((state: AppState) => state.betPool.history);
   const totalBet = bets.reduce((total, bet) => total + bet.amount, 0);
   const maxWin = getBetSetPayouts(bets).reduce((r, payout) => Math.max(r, payout), 0);
   const validIds = bets.map((bet) => bet.id);

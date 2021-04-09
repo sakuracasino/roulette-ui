@@ -1,0 +1,128 @@
+.ConnectWalletButton {
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  font-size: 16px;
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  background-color: rgba(21, 61, 111, 0.44);
+  border: 1px solid rgba(21, 61, 111, 0.44);
+  color: rgb(109, 168, 255);
+
+  &:hover {
+    border: 1px solid rgba(49, 95, 154, 0.44);
+    color: rgb(83, 153, 255);
+  }
+
+  &--error {
+    background-color: rgb(253, 64, 64);
+    border: 1px solid rgb(253, 64, 64);
+    color: white;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &--account {
+    outline: none;
+    border: 1px solid rgb(64, 68, 79);
+    background-color: rgb(44, 47, 54);
+    color: white;
+    font-size: 1rem;
+    width: fit-content;
+    font-weight: 500;
+
+    &:hover {
+      background-color: rgb(64, 68, 79);
+      color: white;
+    }
+  }
+
+  &__balance-container {
+    background-color: rgb(64, 68, 79);
+    border-radius: 12px;
+
+    .ConnectWalletButton {
+      display: inline-block;
+    }
+
+    .ConnectWalletButton__balance {
+      display: inline-block;
+      margin: 0 10px;
+    }
+  }
+}
+
+.ConnectWalletDialog {
+  min-width: 400px;
+
+  &__container {
+    .react-responsive-modal-modal {
+      padding: 0;
+    }
+  }
+
+  &__header {
+    padding: 1.2rem;
+  }
+
+  &__body {
+    padding: 1.2rem;
+    background-color: rgb(44, 47, 54);
+  }
+
+  &__connector {
+    background-color: rgb(44, 47, 54);
+    outline: none;
+    border: 1px solid rgb(64, 68, 79);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    padding: 1rem;
+    margin-top: 0px;
+    opacity: 1;
+    width: 100% !important;
+    margin-bottom: 10px;
+
+    &:hover {
+      cursor: pointer;
+      border: 1px solid rgb(33, 114, 229);
+    }
+
+    &-name {
+     display: flex;
+      flex-flow: row nowrap;
+      color: rgb(255, 255, 255);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    &-logo {
+      display: flex;
+      flex-flow: column nowrap;
+      -webkit-box-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      justify-content: center;
+      height: 24px;
+      width: 24px;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "include": ["./src/index.d.ts", "./src/types.d.ts"],
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addBet } from '../flux/slices/betsSlice';
+import { addBet } from '../flux/slices/betPoolSlice';
 import { AppState } from '../flux/store';
 import { BetCell, BetType, Bet } from '../types.d';
 
@@ -14,7 +14,7 @@ import './BetPlacer.scss';
 
 const BetPlacer = () => {
   const dispatch = useDispatch();
-  const bets: Bet[] = useSelector((state: AppState) => state.bets.betPool);
+  const bets: Bet[] = useSelector((state: AppState) => state.betPool.bets);
   const [betFormOpened, setBetFormOpened] = useState(false);
   const [betForm, setBetForm] = useState({value: 0, type: BetType.Number, amount: 0});
 

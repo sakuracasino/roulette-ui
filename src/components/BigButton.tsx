@@ -4,6 +4,7 @@ import './BigButton.scss';
 
 type BigButtonProps = {
   className?: string;
+  onClick?: () => void;
   children: any;
 };
 
