@@ -124,5 +124,40 @@
       height: 24px;
       width: 24px;
     }
+
+    &--current {
+      background-color: rgb(64, 68, 79);
+      border: 1px solid transparent;
+      cursor: default;
+      pointer-events: none;
+
+      &:hover {
+        cursor: default;
+        border: 1px solid transparent;
+      }
+
+      .ConnectWalletDialog__connector-name::before {
+        content: "•";
+        font-size: 30px;
+        color: #27ae60;
+        line-height: 17px;
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
+.Address {
+  background-color: rgb(44, 47, 54);
+  border: 1px solid rgba(55, 107, 173, 0.44);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 10px 0;
+  font-size: 13px;
+  text-align: center;
+
+  &__label {
+    color: rgb(33, 114, 229);
+    margin-bottom: 3px;
   }
 }

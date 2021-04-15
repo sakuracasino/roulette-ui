@@ -13,7 +13,7 @@ const injectedConnector = new InjectedConnector({
 })
 
 const walletconnect = new WalletConnectConnector({
-  rpc: { 1: 'https://mainnet.infura.io/v3/84842078b09946638c03157f83405213' },
+  rpc: { 42: 'https://kovan.infura.io/v3/082736a20e224d5ba41350cef02a7d45' },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
   pollingInterval: 12000
@@ -50,6 +50,8 @@ function getError(error: Error | undefined) {
             </div>
           </div>
         );
+      case 'UserRejectedRequestError':
+        return 'Error: request was rejected';
       default:
         console.error(error);
         return 'Unknow error, please check the console';
@@ -58,50 +60,59 @@ function getError(error: Error | undefined) {
   return null;
 }
 
+function Address({address} : {address: string}) {
+  return (
+    <div className="Address">
+      <div className="Address__label">Current address</div>
+      <div className="Address__value">{address}</div>
+    </div>
+  );
+}
+
 
 function ConnectDialog({opened, onClose}: {opened: boolean, onClose: () => void}) {
   const web3React = useWeb3React<Web3Provider>();
   const error = getError(web3React.error);
-  window.web3React = web3React;
 
   function activateMetamask() {
-    console.log('activateMetamask');
-    web3React.activate(injectedConnector).then(() => {
-      console.log(1);
-    });
+    if (web3React.active) web3React.deactivate();
+    web3React.activate(injectedConnector);
   }
   function activateWalletConnect() {
-    console.log('activateWalletConnect');
-    web3React.activate(walletconnect);
+    if (web3React.active) web3React.deactivate();
+    web3React.activate(walletconnect, () => web3React.deactivate());
   }
+
+  const metamaskConnectorClasses = classNames({
+    'ConnectWalletDialog__connector': true,
+    'ConnectWalletDialog__connector--current': web3React.connector === injectedConnector && web3React.active,
+  });
+
+  const walletconnectConnectorClasses = classNames({
+    'ConnectWalletDialog__connector': true,
+    'ConnectWalletDialog__connector--current': web3React.connector === walletconnect && web3React.active,
+  });
 
   return (
     <Dialog open={opened} onCloseModal={onClose} className="ConnectWalletDialog__container">
       <div className="ConnectWalletDialog">
         <div className="ConnectWalletDialog__header">
-          Connect to a wallet
+          {web3React.active ? 'Change connector' : 'Connect to a wallet'}
         </div>
         <div className="ConnectWalletDialog__body">
+          {web3React.active ? <Address address={web3React.account} /> : null}
           {error ? <Message type="error">{error}</Message> : null}
-          <button className="ConnectWalletDialog__connector" onClick={activateMetamask}>
+          <button className={metamaskConnectorClasses} onClick={activateMetamask}>
             <div className="ConnectWalletDialog__connector-name">Metamask</div>
             <img className="ConnectWalletDialog__connector-logo" src={MetamaskLogo} />
           </button>
-          <button className="ConnectWalletDialog__connector" onClick={activateWalletConnect}>
+          <button className={walletconnectConnectorClasses} onClick={activateWalletConnect}>
             <div className="ConnectWalletDialog__connector-name">WalletConnect</div>
             <img className="ConnectWalletDialog__connector-logo" src={WalletConnectLogo} />
           </button>
         </div>
       </div>
     </Dialog>
-  );
-}
-
-function AddressDetailsButton() {
-  return (
-    <div>
-      
-    </div>
   );
 }
 
@@ -114,10 +125,8 @@ function ConnectWalletButton() {
 
   useEffect(() => {
     if (web3React.active) {
-      console.log('############## active');
+      setOpenedDialog(false)
       dispatch(updateNetwork(web3React));
-    } else {
-      console.log('############## not active');
     }
   }, [web3React.active])
 

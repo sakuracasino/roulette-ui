@@ -19,8 +19,8 @@ export const networks = [
     "chainId": 1,
     "network_id": 1337,
     "network": "ganache",
-    "dai_address": "0x6A821abD8c0Ef444b04598C678E87f2367698402",
-    "contract_address": "0x3FA6171706Cf2d7cF4df5131b3ea65699C804ff8",
+    "dai_address": "0xeD3B8ABa34c9537a5a21F643A48a62e238154AF9",
+    "contract_address": "0x6e263c8Cb35EF748393AC366301c4478d8Eb0Fc0",
   }
 ];
 

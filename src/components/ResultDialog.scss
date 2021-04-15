@@ -1,0 +1,29 @@
+.ResultDialog {
+  min-width: 400px;
+  text-align: center;
+
+  &__container {
+
+  }
+
+  &__result {
+    font-size: 50px;
+    font-weight: 500;
+    color: rgb(33, 114, 229);
+    margin: 30px 0;
+  }
+  &__payout-message {
+    font-size: 18px;
+
+    .payout-amount {
+      color: #27ae60;
+    }
+  }
+
+  &--lost {
+    .ResultDialog__payout-message {
+      font-size: 18px;
+      color: rgb(216,22,24);
+    }
+  }
+}
