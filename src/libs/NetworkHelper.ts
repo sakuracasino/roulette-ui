@@ -19,10 +19,12 @@ export const networks = [
     "chainId": 1,
     "network_id": 1337,
     "network": "ganache",
-    "dai_address": "0xeD3B8ABa34c9537a5a21F643A48a62e238154AF9",
-    "contract_address": "0x6e263c8Cb35EF748393AC366301c4478d8Eb0Fc0",
+    "dai_address": "0x934BfE126EB7E2F484880A11CbA29a954b36b348",
+    "contract_address": "0x61f9e8c448490d130560D0E71E679B8378a219fE",
   }
 ];
+
+const contracts = new Map();
 
 export default class NetworkHelper {
   private web3React: Web3ReactContextInterface<Web3Provider>;
@@ -52,20 +54,28 @@ export default class NetworkHelper {
 
   public getBetTokenContract() {
     const network = this.getNetwork();
-    return new Contract(
-      network.dai_address,
-      ERC20_PERMIT,
-      this.web3React.library?.getSigner(this.account || ''),
-    );
+    const contractHash = `${network.dai_address}-${this.account || ''}`;
+    if (!contracts.get(contractHash)) {
+      contracts.set(contractHash, new Contract(
+        network.dai_address,
+        ERC20_PERMIT,
+        this.web3React.library?.getSigner(this.account || ''),
+      ));
+    }
+    return contracts.get(contractHash);
   }
 
   public getRouletteContract() {
     const network = this.getNetwork();
-    return new Contract(
-      network.contract_address,
-      rouletteAbi,
-      this.web3React.library?.getSigner(this.account || ''),
-    );
+    const contractHash = `${network.contract_address}-${this.account || ''}`;
+    if (!contracts.get(contractHash)) {
+      contracts.set(contractHash, new Contract(
+        network.contract_address,
+        rouletteAbi,
+        this.web3React.library?.getSigner(this.account || ''),
+      ));
+    }
+    return contracts.get(contractHash);
   }
 
   public toTokenDecimals(value: number) {
