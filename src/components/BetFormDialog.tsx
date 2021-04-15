@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Dialog from './Dialog';
 import BetBadge from './BetBadge';
 import {Bet, BetCell} from '../types.d';
 import {getBetMultiplier} from '../libs/utils';
 import './BetFormDialog.scss';
 import BigButton from "./BigButton";
+import { useState } from 'react';
 
 const BetCellInfo = ({bet}: {bet: BetCell}) => (
   <div className="BetFormDialog__bet-info">
@@ -20,16 +21,20 @@ const BetCellInfo = ({bet}: {bet: BetCell}) => (
 type BetFormDialogProps = {
   open: boolean,
   bet: Bet,
-  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
   onClose: () => void,
-  onBetPlace: () => void,
+  onBetPlace: (amount: string) => void,
 };
 
 const BetFormDialog = (props: BetFormDialogProps) => {
-  const {open, bet, onInputChange, onClose, onBetPlace} = props;
+  const {open, bet, onClose, onBetPlace} = props;
+  const [inputValue, setInputValue] = useState(`${bet.amount || ''}`);
+
+  useEffect(() => {
+    setInputValue(`${bet.amount || ''}`);
+  }, [open])
 
   const betMultiply = getBetMultiplier(bet);
-  const betWin = Math.round((bet.amount || 0) * betMultiply * 100) / 100;
+  const betWin = Math.round((Number(inputValue)) * betMultiply * 100) / 100;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -38,10 +43,10 @@ const BetFormDialog = (props: BetFormDialogProps) => {
       Number(value) < 0 ||
       value.includes(' ')
     ) return;
-    onInputChange(event);
+    setInputValue(value);
   };
 
-  const placeBetDisabled = Number(bet.amount) === 0;
+  const placeBetDisabled = Number(inputValue || 0) === 0;
 
   return (
     <Dialog open={open} onCloseModal={onClose}>
@@ -55,9 +60,9 @@ const BetFormDialog = (props: BetFormDialogProps) => {
               type="text"
               placeholder="0.0"
               pattern="^[0-9]*[.]?[0-9]*$"
-              value={bet.amount || ''}
+              value={inputValue}
               onChange={handleInputChange}
-              onKeyDown={e => e.key === 'Enter' && !placeBetDisabled && onBetPlace()}/>
+              onKeyDown={e => e.key === 'Enter' && !placeBetDisabled && onBetPlace(inputValue)}/>
             <div className="BetFormDialog__amount-power">
               x{betMultiply}
             </div>
@@ -69,7 +74,7 @@ const BetFormDialog = (props: BetFormDialogProps) => {
             ${betWin}
           </span>
         </div>
-        <BigButton className="BetFormDialog__place-bet-button" onClick={() => onBetPlace()} disabled={placeBetDisabled}>
+        <BigButton className="BetFormDialog__place-bet-button" onClick={() => onBetPlace(inputValue)} disabled={placeBetDisabled}>
           {placeBetDisabled ? 'Enter an amount' : 'Place bet'}
         </BigButton>
       </div>

@@ -34,11 +34,6 @@ const BetPlacer = () => {
     });
   };
 
-  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => onOpenBetForm({
-    ...betForm,
-    amount: Number(event.target.value),
-  });
-
   return (
     <div className="BetPlacer">
       <div className="BetPlacer__bet-pool">
@@ -50,9 +45,8 @@ const BetPlacer = () => {
       <BetFormDialog
         open={betFormOpened}
         bet={betForm}
-        onInputChange={handleAmountChange}
-        onBetPlace={() => {
-          dispatch(addBet({...betForm, amount: Number(betForm.amount)}))
+        onBetPlace={(amount: string) => {
+          dispatch(addBet({...betForm, amount: Number(amount)}))
           onCloseBetForm();
         }}
         onClose={onCloseBetForm}
