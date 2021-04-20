@@ -5,6 +5,7 @@ import NetworkHelper from '../../libs/NetworkHelper';
 
 type NetworkReducerStateType = {
   account: string;
+  alertedRequestIds: {[key: string]: boolean;};
   accountBetHistory: string[];
   accountBalance: number;
   maxBet: number;
@@ -12,6 +13,7 @@ type NetworkReducerStateType = {
 
 const initialState: NetworkReducerStateType = {
   account: '',
+  alertedRequestIds: {},
   accountBetHistory: [],
   accountBalance: 0,
   maxBet: 0,
@@ -39,6 +41,9 @@ const networkSlice = createSlice({
   name: 'network',
   initialState,
   reducers: {
+    visitRequestIdAlert(state: NetworkReducerStateType, { payload }: PayloadAction<string>) {
+      state.alertedRequestIds[payload] = true;
+    }
   },
   extraReducers: {
     [updateNetwork.fulfilled]: (state: NetworkReducerStateType, action): NetworkReducerStateType => {
@@ -52,4 +57,8 @@ const networkSlice = createSlice({
   }
 })
 
+
+export const {
+  visitRequestIdAlert
+} = networkSlice.actions;
 export default networkSlice.reducer;

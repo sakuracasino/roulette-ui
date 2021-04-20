@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { BigNumber } from '@ethersproject/bignumber';
@@ -7,15 +7,20 @@ import { formatEther } from '@ethersproject/units';
 import classNames from 'classnames';
 
 import NetworkHelper from '../libs/NetworkHelper';
+import { visitRequestIdAlert } from '../flux/slices/networkSlice';
 import { AppState } from '../flux/store';
 import Dialog from './Dialog';
 
 import './ResultDialog.scss';
 const ResultDialog = () => {
+  const dispatch = useDispatch();
   const account = useSelector((state: AppState) => state.network.account);
   const [opened, setOpened] = useState(false);
   const [payout, setPayout] = useState('');
   const [result, setResult] = useState('');
+  const alertedRequestIds: {[key: string]: boolean;} = useSelector(
+    (state: AppState) => state.network.alertedRequestIds
+  );
   const web3React = useWeb3React<Web3Provider>();
 
   useEffect(() => {
@@ -23,11 +28,13 @@ const ResultDialog = () => {
       const networkHelper = new NetworkHelper(web3React);
       const roulette = networkHelper.getRouletteContract();
       const betResultCallback = (requestId: string, _result: BigNumber, _payout: BigNumber) => {
+        if(alertedRequestIds[requestId]) return;
         const result = _result.toString();
         const payout = formatEther(_payout);
         setOpened(true);
         setPayout(Number(payout) ? payout : '');
         setResult(result);
+        dispatch(visitRequestIdAlert(requestId));
       };
       roulette.on('BetResult', betResultCallback);
       return () => {
