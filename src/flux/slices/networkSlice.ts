@@ -45,6 +45,7 @@ const networkSlice = createSlice({
       // Add user to the state array
       return {
         ...state,
+        account: action.payload.account,
         accountBalance: action.payload.accountBalance,
       }
     }

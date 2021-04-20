@@ -124,6 +124,14 @@ function ConnectWalletButton() {
   const accountBalance = useSelector(state => state.network.accountBalance);
 
   useEffect(() => {
+    injectedConnector.isAuthorized().then(isAuthorized => {
+      if (isAuthorized) {
+        web3React.activate(injectedConnector, undefined, true).catch(() => {})
+      }
+    })
+  }, [web3React.activate]) // intentionally only running on mount
+
+  useEffect(() => {
     if (web3React.active) {
       setOpenedDialog(false)
       dispatch(updateNetwork(web3React));

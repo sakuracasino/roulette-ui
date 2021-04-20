@@ -1,31 +1,35 @@
+import {configureStore} from '@reduxjs/toolkit';
 import {createStore, applyMiddleware} from 'redux';
 import {routerMiddleware} from 'react-router-redux';
 import {logger} from 'redux-logger';
 import thunk from 'redux-thunk';
 import {combineReducers} from 'redux';
-import {routerReducer} from 'react-router-redux';
 import {createBrowserHistory} from 'history';
+import { save, load } from 'redux-localstorage-simple';
+import {routerReducer} from 'react-router-redux';
 
 import betPoolReducer from './slices/betPoolSlice';
 import networkReducer from './slices/networkSlice';
 
-const combinedReducers = combineReducers({
-  routing: routerReducer,
-  betPool: betPoolReducer,
-  network: networkReducer,
-});
+const PERSISTED_KEYS = ['network'];
 
 const middlewares = [
   thunk,
   routerMiddleware(createBrowserHistory()),
+  save({states: PERSISTED_KEYS}),
 ];
 
 if (process.env.NODE_ENV !== 'production') middlewares.push(logger);
 
-const store = createStore(
-  combinedReducers,
-  applyMiddleware(...middlewares),
-);
+const store = configureStore({
+  reducer: {
+    routing: routerReducer,
+    betPool: betPoolReducer,
+    network: networkReducer,
+  },
+  middleware: middlewares,
+  preloadedState: load({ states: PERSISTED_KEYS }),
+});
 
-export type AppState = ReturnType<typeof combinedReducers>
+export type AppState = ReturnType<typeof store.getState>
 export default store;
