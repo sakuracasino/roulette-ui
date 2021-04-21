@@ -95,7 +95,7 @@ export default class NetworkHelper {
     }));
   }
 
-  public async approveTokenAmount(amount: BigNumber) {
+  public async approveTokenAmount(amount: BigNumber): Promise<any[]> {
     const tokenContract = await this.getBetTokenContract();
     const rouletteContract = await this.getRouletteContract();
     const deadline = MaxUint256.toString();
