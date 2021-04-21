@@ -23,8 +23,6 @@ export const injectedConnector = new InjectedConnector({
 import './TopBar.scss';
 export default function TopBar() {
   const web3React = useWeb3React<Web3Provider>()
-  console.log('web3React', web3React);
-  // console.log('account', account, chainId);
 
   function connectToWallet() {  
     web3React.activate(injectedConnector)
@@ -36,9 +34,7 @@ export default function TopBar() {
         <img className="TopBar__logo" src={RouletteLogo} />
         <ul className="TopBar__menu">
           <li className="active">Bet</li>
-          <li>Deposit</li>
           <li>Pool</li>
-          <li>Account: {web3React.account}</li>
         </ul>
       </div>
       <div className="TopBar__right-menu">

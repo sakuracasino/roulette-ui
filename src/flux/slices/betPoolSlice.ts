@@ -2,20 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { uniqueId } from 'lodash';
 import { Bet, BetType } from '../../types.d';
 
-const initialBetPool: Bet[] = [
-  {
-    id: uniqueId('bet_pooled_'),
-    type: BetType.Color,
-    value: 0,
-    amount: 2.13,
-  },
-  {
-    id: uniqueId('bet_pooled_'),
-    type: BetType.Half,
-    value: 0,
-    amount: 4,
-  },
-];
+const initialBetPool: Bet[] = [];
 
 type BetPoolReducerStateType = {
   bets: Bet[];
