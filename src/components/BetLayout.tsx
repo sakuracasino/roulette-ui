@@ -8,9 +8,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import BetTable from '../assets/bet-table.jpg';
 import {getBetSetPayouts} from '../libs/utils';
 import {Bet, BetCell, BetCellGraphic, BetType,} from '../types.d';
-import './BetLayout.scss';
 import { AppState } from '../flux/store';
 import { togglePayouts } from '../flux/slices/betPoolSlice';
+import Tabs from './Tabs'
+
+import './BetLayout.scss';
 
 const REFERENCE_WIDTH = 600;
 const REFERENCE_HEIGHT = 429;
@@ -167,20 +169,13 @@ type BetLayoutMenuProps = {
 };
 
 const BetLayoutMenu = ({ payoutsDisplayed, tooglePayouts }: BetLayoutMenuProps) => (
-  <ul className="BetLayout__menu">
-    <li
-      className={classNames({ 'BetLayout__menu-item': true, 'selected': !payoutsDisplayed })}
-      onClick={() => tooglePayouts(false)}
-    >
-      Bets
-    </li>
-    <li
-      className={classNames({ 'BetLayout__menu-item': true, 'selected': payoutsDisplayed })}
-      onClick={() => tooglePayouts(true)}
-    >
-      Possible outcomes
-    </li>
-  </ul>
+  <Tabs
+    selectedIndex={payoutsDisplayed ? 1 : 0}
+    tabs={[
+      {content: 'Bets', onClick: () => tooglePayouts(false)},
+      {content: 'Possible outcomes', onClick: () => tooglePayouts(true)},
+    ]}
+  />
 );
 
 const renderNumberArea = (
