@@ -9,6 +9,7 @@ import BetPool from './BetPool';
 import BetLayout from './BetLayout';
 import BetFormDialog from './BetFormDialog';
 import RollDialog from './RollDialog';
+import LastRolls from './LastRolls';
 
 import './BetPlacer.scss';
 
@@ -51,6 +52,7 @@ const BetPlacer = () => {
         }}
         onClose={onCloseBetForm}
       />
+      <LastRolls />
       <RollDialog />
     </div>
   );

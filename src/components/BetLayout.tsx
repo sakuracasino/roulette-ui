@@ -121,13 +121,13 @@ function getCellMap(width: number): {name: string, areas: BetCellGraphic[]} {
       },
       {
         type: BetType.Color,
-        value: 0,
+        value: 1,
         shape: "rect",
         coords: [227,318,305,393]
       },
       {
         type: BetType.Color,
-        value: 1,
+        value: 2,
         shape: "rect",
         coords: [306,318,382,393]
       },

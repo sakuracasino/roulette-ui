@@ -1,3 +1,5 @@
+import { Contract } from '@ethersproject/contracts';
+import { BlockTag } from '@ethersproject/providers';
 import { Bet, BetCell, BetType } from '../types.d';
 
 const RED_NUMBERS = [
@@ -7,7 +9,7 @@ const RED_NUMBERS = [
 export const getBetDescription = (bet: BetCell): string => {
   return {
     [BetType.Number]: `${bet.value}`,
-    [BetType.Color]: bet.value ? 'Black' : 'Red',
+    [BetType.Color]: (bet.value == 1) ? 'Red' : 'Black',
     [BetType.Even]: bet.value ? 'Odd' : 'Even',
     [BetType.Column]: ['3rd Column', '1st Column', '2nd Column'][bet.value],
     [BetType.Dozen]: ['1st Dozen', '2nd Dozen', '3rd Dozen'][bet.value],
@@ -37,7 +39,7 @@ export const getBetColor = (bet: BetCell): string => {
       if (!bet.value) return 'green';
       return RED_NUMBERS.includes(Number(bet.value)) ? 'red' : 'black';
     case BetType.Color:
-      return bet.value ? 'black' : 'red';
+      return (bet.value == 1) ? 'red' : 'black';
     default:
       return 'gray';
   }
@@ -74,3 +76,5 @@ export const getBetSetPayouts = (bets: Bet[]) => {
 export const random32 = (): number => {
   return window.crypto.getRandomValues(new Uint32Array(1))[0];
 }
+
+export const shortAccount = (account: string) => `${account.slice(0,6)}...${account.slice(-4)}`;

@@ -1,0 +1,40 @@
+.LastRolls {
+  margin-top: 18px;
+  width: 400px;
+
+  &__rolls {
+    background-color: rgba(0, 0, 0, 0.1);
+    justify-content: flex-start;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 1px solid #40444f;
+    height: 430px;
+    overflow-y: auto;
+  }
+
+  &__roll {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    margin: 10px;
+
+    &-badge {
+      display: inline-block;
+      width: 50px;
+      margin-right: 10px;
+      text-align: center;
+    }
+
+    &-payout {
+      display: inline-block;
+      color: gray;
+      .positive {
+        color: #2172e5;
+      }
+    }
+
+    &-loader {
+      margin-left: 13px;
+    }
+  }
+}

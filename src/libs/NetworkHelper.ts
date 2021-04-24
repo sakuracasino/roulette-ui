@@ -1,3 +1,4 @@
+// @ts-ignore
 import { networks as deployedNetworks, abi as rouletteAbi } from '@sakuracasino/roulette-contract';
 import { Contract } from '@ethersproject/contracts'
 import { BigNumber } from '@ethersproject/bignumber';
@@ -19,10 +20,18 @@ export const networks = [
     "chainId": 1,
     "network_id": 1337,
     "network": "ganache",
-    "dai_address": "0x934BfE126EB7E2F484880A11CbA29a954b36b348",
-    "contract_address": "0x61f9e8c448490d130560D0E71E679B8378a219fE",
+    "dai_address": "0xa830eC49F511F16b6020652CCf3d0690AB903a08",
+    "contract_address": "0xB328274b98E39931e0a90cD0471383C7c0a7EF73",
   }
 ];
+
+export type RollLog = {
+  requestId: string,
+  sender: string,
+  completed: boolean,
+  randomResult?: number,
+  payout?: number,
+};
 
 const contracts = new Map();
 
@@ -76,6 +85,29 @@ export default class NetworkHelper {
       ));
     }
     return contracts.get(contractHash);
+  }
+
+  async getRollHistory(): Promise<RollLog[]> {
+    const roulette = await this.getRouletteContract();
+    const betRequestHistory = await roulette.queryFilter('BetRequest');
+    const betResults = (
+      await roulette.queryFilter('BetResult')
+    ).reduce((results: any, betRequest: {args: {requestId: string, randomResult: BigNumber, payout: BigNumber}}) => {
+      results[betRequest.args.requestId] = {
+        randomResult: betRequest.args.randomResult.toString(),
+        payout: formatEther(betRequest.args.payout),
+      };
+      return results;
+    }, {});
+    const betHistory: RollLog[] = betRequestHistory.map((betRequest: {args: {requestId: string, sender: string}}) => {
+      return {
+        requestId: betRequest.args.requestId,
+        sender: betRequest.args.sender,
+        completed: !!betResults[betRequest.args.requestId],
+        ...(betResults[betRequest.args.requestId] || {})
+      };
+    });
+    return betHistory;
   }
 
   public toTokenDecimals(value: number) {

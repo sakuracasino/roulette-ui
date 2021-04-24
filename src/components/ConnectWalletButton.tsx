@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
 import { Web3Provider } from '@ethersproject/providers'
 import { useWeb3React } from '@web3-react/core'
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
+
 import { networks } from '../libs/NetworkHelper';
+import { updateNetwork } from '../flux/slices/networkSlice';
+import { shortAccount } from '../libs/utils';
 
 import Message from './Message';
+import Dialog from './Dialog';
 
 const injectedConnector = new InjectedConnector({
   supportedChainIds: networks.map((network: {chainId: number}) => network.chainId),
@@ -19,15 +25,11 @@ const walletconnect = new WalletConnectConnector({
   pollingInterval: 12000
 })
 
-import Dialog from './Dialog';
 // @ts-ignore
 import MetamaskLogo from '../assets/metamask.png';
 // @ts-ignore
 import WalletConnectLogo from '../assets/walletconnect.svg';
 import './ConnectWalletButton.scss';
-import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateNetwork } from '../flux/slices/networkSlice';
 
 function isSupportedNetwork(web3React: Web3ReactContextInterface<Web3Provider>) {
   if(web3React?.error) {
@@ -143,9 +145,7 @@ function ConnectWalletButton() {
     'ConnectWalletButton--account': networkSupported && web3React.account,
     'ConnectWalletButton--error': !networkSupported,
   });
-  const address = web3React.account ? `
-    ${web3React.account.slice(0,6)}...${web3React.account.slice(-4)}
-  ` : 'Connect to a wallet';
+  const address = web3React.account ? shortAccount(web3React.account) : 'Connect to a wallet';
 
   return (
     <React.Fragment>

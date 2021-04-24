@@ -7,6 +7,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import NetworkHelper from '../libs/NetworkHelper';
 import { AppState } from '../flux/store';
 import { toggleRollDialog } from '../flux/slices/betPoolSlice';
+import { updateNetwork } from '../flux/slices/networkSlice';
 import { Bet } from '../types';
 import config from '../config';
 import { random32 } from '../libs/utils';
@@ -47,6 +48,7 @@ const RollDialog = () => {
   const closeModal = () => {
     setError('');
     setLoading(false);
+    setLoadingButton(false);
     setSignatureParams([]);
     dispatch(toggleRollDialog(false));
   };
@@ -69,7 +71,7 @@ const RollDialog = () => {
       setError(getErrorMessage(error));
       setLoadingButton(false);
     }
-  }, [web3React]);
+  }, [web3React, bets]);
 
   const rollBets = useCallback(async (_signatureParams) => {
     const networkHelper = new NetworkHelper(web3React);
@@ -85,6 +87,7 @@ const RollDialog = () => {
       const betResultEvent = events.find((e: Web3Event) => e.event === 'BetResult');
       if(betRequestEvent) {
         setRequestId(betRequestEvent['args']['requestId']);
+        dispatch(updateNetwork(web3React));
       }
       if(betResultEvent) {
         closeModal();
@@ -96,7 +99,7 @@ const RollDialog = () => {
       setLoadingButton(false);
       setSignatureParams([]);
     }
-  }, [web3React]);
+  }, [web3React, bets]);
 
   useEffect(() => {
     if(web3React.active) {
@@ -104,6 +107,7 @@ const RollDialog = () => {
       const roulette = networkHelper.getRouletteContract();
       roulette.on('BetResult', (_requestId: string) => {
         if (requestId === _requestId) closeModal();
+        dispatch(updateNetwork(web3React));
       });
     }
   }, [web3React.active]);
