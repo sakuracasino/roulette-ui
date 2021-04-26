@@ -29,8 +29,8 @@ export const getBetMultiplier = (bet: BetCell): number => {
 };
 
 export const getNumberColor = (value: number|string): number => {
-  if (!value) return 2;
-  return RED_NUMBERS.includes(Number(value)) ? 0 : 1;
+  if (!value) return 0;
+  return RED_NUMBERS.includes(Number(value)) ? 1 : 2;
 };
 
 export const getBetColor = (bet: BetCell): string => {
