@@ -9,7 +9,6 @@ const BUILD_DIR = 'dist';
 
 module.exports = {
   entry: `${APP_DIR}/index.tsx`,
-  mode: 'development',
   devtool: 'source-map',
   devServer: {
     contentBase: path.join(__dirname, BUILD_DIR),

@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://sakura.casino/",
   "scripts": {
-    "start": "NODE_ENV='development' ./node_modules/.bin/webpack serve --env development",
-    "build": "./node_modules/.bin/webpack",
+    "start": "NODE_ENV='development' ./node_modules/.bin/webpack serve --config webpack.dev.js",
+    "build": "NODE_ENV='production' ./node_modules/.bin/webpack --config webpack.prod.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +35,7 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "eslint-webpack-plugin": "^2.5.2",
     "file-loader": "^6.2.0",
+    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "^5.2.0",
     "node-sass": "^5.0.0",
     "sass-loader": "^11.0.1",
@@ -41,7 +45,8 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.24.3",
     "webpack-cli": "^4.5.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.1.0",
