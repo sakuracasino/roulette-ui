@@ -1,0 +1,44 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:11.15.0-stretch
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v3-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Install Dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli -y
+            npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v3-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Run tests
+          command: |
+            # npm test
+
+      - deploy:
+          name: Deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              npm run build
+              aws s3 sync dist s3://sakura-roulette-ui/ --delete
+              aws s3 cp dist/index.html s3://sakura-roulette-ui/ --cache-control max-age=0
+            else
+              echo "Not master branch, dry run only"
+            fi
