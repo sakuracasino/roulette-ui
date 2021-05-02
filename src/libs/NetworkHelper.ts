@@ -11,17 +11,15 @@ import { ERC20_PERMIT } from '../data/abis';
 import { Bet, Network } from '../types';
 import { getPermitData } from './permit';
 
-// console.log(process.env.NODE_ENV);
-// export const networks = process.env.NODE_ENV !== 'development' ? deployedNetworks : [
-export const networks = [
+export const networks = process.env.NODE_ENV !== 'development' ? deployedNetworks : [
   ...deployedNetworks,
   {
     "name": "Ganache",
-    "chainId": 1,
+    "chain_id": 1,
     "network_id": 1337,
-    "network": "ganache",
-    "dai_address": "0xa830eC49F511F16b6020652CCf3d0690AB903a08",
-    "contract_address": "0xB328274b98E39931e0a90cD0471383C7c0a7EF73",
+    "network_name": "ganache",
+    "bet_token_address": process.env.BET_TOKEN_ADDRESS,
+    "contract_address": process.env.ROULETTE_ADDRESS,
   }
 ];
 
@@ -54,7 +52,7 @@ export default class NetworkHelper {
 
   public getNetwork(): Network {
     this.checkActive();
-    const network = networks.find((network: Network) => network.chainId === this.chainId);
+    const network = networks.find((network: Network) => network.chain_id === this.chainId);
     if (!network) {
       throw `Network with chainId ${this.chainId} not found`;
     }
@@ -63,10 +61,10 @@ export default class NetworkHelper {
 
   public getBetTokenContract() {
     const network = this.getNetwork();
-    const contractHash = `${network.dai_address}-${this.account || ''}`;
+    const contractHash = `${network.bet_token_address}-${this.account || ''}`;
     if (!contracts.get(contractHash)) {
       contracts.set(contractHash, new Contract(
-        network.dai_address,
+        network.bet_token_address,
         ERC20_PERMIT,
         this.web3React.library?.getSigner(this.account || ''),
       ));

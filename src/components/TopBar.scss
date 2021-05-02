@@ -43,4 +43,27 @@
       }
     }
   }
+
+  .dai-mint-container {
+    display: inline-flex;
+    padding: 8px 12px;
+  }
+
+  .dai-mint-btn {
+    display: inline-flex;
+    margin: 0px;
+    min-width: 0px;
+    width: 100%;
+    background-color: rgba(243, 132, 30, 0.05);
+    color: rgb(243, 132, 30);
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.25s ease-out;
+
+    &:hover {
+      background-color: rgba(243, 132, 30, 0.1);
+    }
+  }
 }

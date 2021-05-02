@@ -15,7 +15,7 @@ import Message from './Message';
 import Dialog from './Dialog';
 
 const injectedConnector = new InjectedConnector({
-  supportedChainIds: networks.map((network: {chainId: number}) => network.chainId),
+  supportedChainIds: networks.map((network: {chainId: number}) => network.chain_id),
 })
 
 const walletconnect = new WalletConnectConnector({

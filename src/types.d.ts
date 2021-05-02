@@ -25,9 +25,9 @@ export interface BetCellGraphic extends BetCell {
 
 export interface Network {
   name: string;
-  chainId: number;
+  chain_id: number;
   network_id: number;
-  network: string;
-  dai_address: string;
+  network_name: string;
+  bet_token_address: string;
   contract_address: string;
 }

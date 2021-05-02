@@ -25,7 +25,6 @@ const LastRolls = () => {
       updateRollHistory();
     }
   }, [web3React.active]);
-  console.log(rolls);
 
   const renderRoll = (roll: RollLog) => {
     let rollResultNode = (

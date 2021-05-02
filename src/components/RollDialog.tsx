@@ -9,7 +9,6 @@ import { AppState } from '../flux/store';
 import { toggleRollDialog } from '../flux/slices/betPoolSlice';
 import { updateNetwork } from '../flux/slices/networkSlice';
 import { Bet } from '../types';
-import config from '../config';
 import { random32 } from '../libs/utils';
 
 import Dialog from './Dialog';
@@ -17,6 +16,8 @@ import BetBadge from './BetBadge';
 import BigButton from './BigButton';
 import Message from './Message';
 import RouletteGraphic from './RouletteGraphic';
+
+const BET_TOKEN = process.env.BET_TOKEN_NAME || 'DAI';
 
 type Web3Event = {
   event: string,
@@ -120,7 +121,7 @@ const RollDialog = () => {
           <div className="RollDialog__bets">
             {bets.map((bet) => (
               <div className="RollDialog__bet" key={`rolldialog-bet-${bet.type}-${bet.value}-${bet.id}`}>
-                <div className="RollDialog__bet-amount">{bet.amount.toFixed(2)} {config.BET_TOKEN}</div>
+                <div className="RollDialog__bet-amount">{bet.amount.toFixed(2)} {BET_TOKEN}</div>
                 <div className="RollDialog__bet-badge">
                   <BetBadge bet={bet} />
                 </div>
@@ -137,7 +138,7 @@ const RollDialog = () => {
                     Total Price
                   </div>
                   <div className="RollDialog__fee-price highlighted">
-                    {`${(betAmount + betFee).toFixed(2)} ${config.BET_TOKEN}`}
+                    {`${(betAmount + betFee).toFixed(2)} ${BET_TOKEN}`}
                   </div>
                 </div>
                 <div className="RollDialog__fee">
@@ -145,7 +146,7 @@ const RollDialog = () => {
                     Bet Amount
                   </div>
                   <div className="RollDialog__fee-price">
-                    {`${betAmount.toFixed(2)} ${config.BET_TOKEN}`}
+                    {`${betAmount.toFixed(2)} ${BET_TOKEN}`}
                   </div>
                 </div>
                 <div className="RollDialog__fee">
@@ -153,7 +154,7 @@ const RollDialog = () => {
                     Bet fee
                   </div>
                   <div className="RollDialog__fee-price">
-                    {`${betFee.toFixed(2)} ${config.BET_TOKEN}`}
+                    {`${betFee.toFixed(2)} ${BET_TOKEN}`}
                   </div>
                 </div>
               </div>

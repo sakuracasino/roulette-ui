@@ -1,3 +1,4 @@
+require('dotenv').config()
 const path = require('path');
 const webpack = require('webpack');
 const htmlWebpackPlugin = require('html-webpack-plugin');
@@ -78,6 +79,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_DEBUG),
+      'process.env.BET_TOKEN_ADDRESS': JSON.stringify(process.env.BET_TOKEN_ADDRESS),
+      'process.env.ROULETTE_ADDRESS': JSON.stringify(process.env.ROULETTE_ADDRESS),
+      'process.env.BET_TOKEN_NAME': JSON.stringify(process.env.BET_TOKEN_NAME || 'DAI'),
     }),
   ],
 }
