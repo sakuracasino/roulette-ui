@@ -8,7 +8,23 @@ Crypto Roulette UI
 For generating a build use `npm run build` and the result will be in the `dist/` folder
 
 ### Live Preview (synced with master)
-https://crypto-roulette-ui.netlify.app/
+https://sakura.casino/
 
 ### Contract implementation:
-https://github.com/ivandiazwm/crypto-roulette
+https://github.com/sakuracasino/roulette-contract
+
+
+### Development Checklist
+
+[ ] Implementar max-bet limit error
+[ ] Add bet details modal
+[ ] Shaking modal error for failing events
+[ ] Create color and font centralized file
+[ ] Review linting
+[ ] Implement circleci tests
+[ ] Make responsive
+[ ] Implement fees correctly
+[ ] Implement permit used in DAI
+[ ] Add pooling UI
+[ ] Add about
+[ ] Add footer

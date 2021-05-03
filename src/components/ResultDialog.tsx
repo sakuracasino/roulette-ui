@@ -27,8 +27,9 @@ const ResultDialog = () => {
     if(web3React.active) {
       const networkHelper = new NetworkHelper(web3React);
       const roulette = networkHelper.getRouletteContract();
-      const betResultCallback = (requestId: string, _result: BigNumber, _payout: BigNumber) => {
-        if(alertedRequestIds[requestId]) return;
+      const betResultCallback = async (requestId: string, _result: BigNumber, _payout: BigNumber) => {
+        const requesterAddress = await roulette.requesterOf(requestId);
+        if(alertedRequestIds[requestId] || requesterAddress !== web3React.account) return;
         const result = _result.toString();
         const payout = formatEther(_payout);
         setOpened(true);
