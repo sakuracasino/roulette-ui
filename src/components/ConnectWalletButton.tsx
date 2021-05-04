@@ -8,14 +8,15 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 
 import { networks } from '../libs/NetworkHelper';
-import { updateNetwork } from '../flux/slices/networkSlice';
 import { shortAccount } from '../libs/utils';
+import { updateNetwork } from '../flux/slices/networkSlice';
+import { AppState } from '../flux/store';
 
 import Message from './Message';
 import Dialog from './Dialog';
 
 const injectedConnector = new InjectedConnector({
-  supportedChainIds: networks.map((network: {chainId: number}) => network.chain_id),
+  supportedChainIds: networks.map((network: {chain_id: number}) => network.chain_id),
 })
 
 const walletconnect = new WalletConnectConnector({
@@ -102,7 +103,7 @@ function ConnectDialog({opened, onClose}: {opened: boolean, onClose: () => void}
           {web3React.active ? 'Change connector' : 'Connect to a wallet'}
         </div>
         <div className="ConnectWalletDialog__body">
-          {web3React.active ? <Address address={web3React.account} /> : null}
+          {(web3React.active && web3React.account) ? <Address address={web3React.account} /> : null}
           {error ? <Message type="error">{error}</Message> : null}
           <button className={metamaskConnectorClasses} onClick={activateMetamask}>
             <div className="ConnectWalletDialog__connector-name">Metamask</div>
@@ -123,7 +124,7 @@ function ConnectWalletButton() {
   const dispatch = useDispatch();
   const web3React = useWeb3React<Web3Provider>();
   const networkSupported = isSupportedNetwork(web3React);
-  const accountBalance = useSelector(state => state.network.accountBalance);
+  const accountBalance = useSelector((state: AppState) => state.network.accountBalance);
 
   useEffect(() => {
     injectedConnector.isAuthorized().then(isAuthorized => {

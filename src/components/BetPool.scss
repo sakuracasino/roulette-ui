@@ -150,6 +150,23 @@
         animation-duration: 2s;
       }
     }
+
+    &[disabled] {
+      font-size: 14px;
+      background: #40444f;
+      color: #aab3cf;
+      cursor: auto;
+      box-shadow: none;
+      border: 1px solid transparent;
+      outline: none;
+      opacity: 1;
+      cursor: default;
+      &:hover {
+        &:before, &:after {
+          display: none;
+        }
+      }
+    }
   }
 
   &__roll-dice {

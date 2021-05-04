@@ -17,7 +17,7 @@ const BetPlacer = () => {
   const dispatch = useDispatch();
   const bets: Bet[] = useSelector((state: AppState) => state.betPool.bets);
   const [betFormOpened, setBetFormOpened] = useState(false);
-  const [betForm, setBetForm] = useState({value: 0, type: BetType.Number, amount: 0});
+  const [betForm, setBetForm] = useState({value: 0, type: BetType.Number, amount: 0, id: ''});
 
   const onOpenBetForm = (bet: Bet) => {
     setBetForm(bet);
@@ -32,6 +32,7 @@ const BetPlacer = () => {
       value: cell.value,
       type: cell.type,
       amount: bet ? bet.amount : 0,
+      id: '',
     });
   };
 

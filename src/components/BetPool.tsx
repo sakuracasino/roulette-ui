@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useSelector, useDispatch } from 'react-redux'
+import { compact } from 'lodash';
 
 import { AppState } from '../flux/store';
 import { removeBet, toggleRollDialog, togglePayouts } from '../flux/slices/betPoolSlice';
@@ -86,14 +87,16 @@ const BetPool = () => {
 
   const bets: Bet[] = useSelector((state: AppState) => state.betPool.bets);
   const betHistory: Bet[] = useSelector((state: AppState) => state.betPool.history);
-  const totalBet = bets.reduce((total, bet) => total + bet.amount, 0);
+  const totalBetAmount = bets.reduce((total, bet) => total + bet.amount, 0);
+  const maxBetAmount: number = useSelector((state: AppState) => state.network.maxBet);
   const maxWin = getBetSetPayouts(bets).reduce((r, payout) => Math.max(r, payout), 0);
-  const validIds = bets.map((bet) => bet.id);
+  const validIds = compact(bets.map((bet) => bet.id));
+  const maxAmountOverflow: boolean = maxBetAmount < totalBetAmount;
   return (
     <div className="BetPool">
       <div className="BetPool__total">
         <div>
-          Total: <span className="BetPool__total-number">${totalBet.toFixed(2)}</span>
+          Total: <span className="BetPool__total-number">${totalBetAmount.toFixed(2)}</span>
         </div>
         <div className="BetPool__max-win">
           Max win:
@@ -106,9 +109,8 @@ const BetPool = () => {
         {betHistory.map(renderBet.bind(this, validIds, onRemoveClick))}
         {bets.length ? null : renderNoBets()}
       </div>
-      {bets.length ? <button className="BetPool__roll" onClick={onRollClick}>
-        Roll
-        <Dice />
+      {bets.length ? <button className="BetPool__roll" onClick={maxAmountOverflow ? undefined : onRollClick} disabled={maxAmountOverflow}>
+        {maxAmountOverflow ? `Max bet is $${maxBetAmount.toFixed(2)}` : <>Roll <Dice /></>}
       </button> : null}
     </div>
   );

@@ -1,7 +1,7 @@
 // @ts-ignore
 import { networks as deployedNetworks, abi as rouletteAbi } from '@sakuracasino/roulette-contract';
 import { Contract } from '@ethersproject/contracts'
-import { BigNumber } from '@ethersproject/bignumber';
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { formatEther, parseEther } from '@ethersproject/units';
 import { splitSignature } from '@ethersproject/bytes';
 import { MaxUint256 } from '@ethersproject/constants';
@@ -112,9 +112,13 @@ export default class NetworkHelper {
     return parseEther(`${value}`);
   }
 
+  public fromTokenDecimals(value: BigNumberish) {
+    return formatEther(value);
+  }
+
   public async getBetTokenBalance(account: string) {
     const tokenContract = this.getBetTokenContract();
-    return formatEther((await tokenContract.balanceOf(account)))
+    return this.fromTokenDecimals((await tokenContract.balanceOf(account)))
   }
 
   public getBetsForContract(bets: Bet[]) {

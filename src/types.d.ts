@@ -15,6 +15,7 @@ export interface BetCell {
 
 export interface Bet extends BetCell {
   amount: number;
+  id: string;
 }
 
 export interface BetCellGraphic extends BetCell {
