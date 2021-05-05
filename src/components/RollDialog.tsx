@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
 import { BigNumber } from '@ethersproject/bignumber';
+import classNames from 'classnames';
 
 import NetworkHelper from '../libs/NetworkHelper';
 import { AppState } from '../flux/store';
@@ -41,6 +42,7 @@ const RollDialog = () => {
   const opened: boolean = useSelector((state: AppState) => state.betPool.rollDialogDisplayed);
   const betAmount = bets.reduce((total, bet) => total + bet.amount, 0);
   const web3React = useWeb3React<Web3Provider>();
+  const [shakeAnimation, setShakeAnimation] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingButton, setLoadingButton] = useState<boolean>(false);
@@ -69,6 +71,7 @@ const RollDialog = () => {
       setLoadingButton(false);
       setError('');
     } catch (error) {
+      setShakeAnimation(true);
       setError(getErrorMessage(error));
       setLoadingButton(false);
     }
@@ -95,6 +98,7 @@ const RollDialog = () => {
       }
       setError('');
     } catch (error) {
+      setShakeAnimation(true);
       setError(getErrorMessage(error));
       setLoading(false);
       setLoadingButton(false);
@@ -113,8 +117,20 @@ const RollDialog = () => {
     }
   }, [web3React.active]);
 
+  const containerClass = classNames({
+    'RollDialog__container': true,
+    'RollDialog__container--shake': error && shakeAnimation,
+  });
+
+  const removeAnimation = () => setShakeAnimation(false);
+  const onShakeEnd = useCallback(() => {
+    const modalElement = document.querySelector('.react-responsive-modal-root');
+    modalElement?.removeEventListener('animationend', removeAnimation);
+    modalElement?.addEventListener('animationend', removeAnimation);
+  }, []);
+
   return (
-    <Dialog open={opened} onCloseModal={closeModal} className="RollDialog__container">
+    <Dialog open={opened} onCloseModal={closeModal} className={containerClass} onAnimationEnd={onShakeEnd}>
       <div className="RollDialog">
         <div className="RollDialog__top-area">
           <div className="RollDialog__title">Confirm Roll</div>

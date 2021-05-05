@@ -1,9 +1,25 @@
+@keyframes shake {
+  0% {
+    margin-left: -10px;
+  }
+  50% {
+    margin-left: 10px;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+
 .RollDialog {
-  min-width: 400px;
+  min-width: 400px;  
 
   &__container {
     .react-responsive-modal-modal {
       padding: 0;
+    }
+
+    &--shake {
+      animation: shake 0.1s linear 3;
     }
   }
 
