@@ -27,7 +27,6 @@ export const updateNetwork = createAsyncThunk(
       const rouletteContract = networkHelper.getRouletteContract();
       const balance = await networkHelper.getBetTokenBalance(web3React.account || '');
       const maxBet = Number(networkHelper.fromTokenDecimals((await rouletteContract.getMaxBet())));
-      console.log(maxBet);
       return {
         account: web3React.account,
         accountBetHistory: [],

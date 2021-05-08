@@ -1,3 +1,5 @@
+@import '../variables';
+
 .ResultDialog {
   min-width: 400px;
   text-align: center;
@@ -9,7 +11,7 @@
   &__result {
     font-size: 50px;
     font-weight: 500;
-    color: rgb(33, 114, 229);
+    color: $blue-1;
     margin: 30px 0;
   }
   &__payout-message {

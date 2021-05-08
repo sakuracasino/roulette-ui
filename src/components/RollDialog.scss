@@ -1,3 +1,5 @@
+@import '../variables';
+
 @keyframes shake {
   0% {
     margin-left: -10px;
@@ -30,7 +32,7 @@
 
   &__bottom-area {
     padding: 1.2rem;
-    background-color: rgb(44, 47, 54);
+    background-color: $dark-blue-2;
   }
 
   &__title {
@@ -71,7 +73,7 @@
     &-description {
       font-weight: 400;
       font-size: 14px;
-      color: rgb(195, 197, 203);
+      color: $gray-1;
     }
 
     &-price {
@@ -79,7 +81,7 @@
       font-size: 14px;
 
       &.highlighted {
-        color: rgb(33, 114, 229);
+        color: $blue-1;
       }
     }
   }

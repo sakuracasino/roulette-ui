@@ -1,3 +1,5 @@
+@import '../variables';
+
 .BetFormDialog {
   min-width: 400px;
 
@@ -7,8 +9,8 @@
     position: relative;
     z-index: 1;
     border-radius: 20px;
-    border: 1px solid rgb(44, 47, 54);
-    background-color: rgb(33, 36, 41);
+    border: 1px solid $dark-blue-2;
+    background-color: $dark-blue-3;
   }
 
   &__amount-label-text {
@@ -23,7 +25,7 @@
     min-width: 0px;
     font-weight: 500;
     font-size: 14px;
-    color: rgb(195, 197, 203);
+    color: $gray-1;
   }
 
   &__amount-input {
@@ -34,7 +36,7 @@
     outline: none;
     border: none;
     flex: 1 1 auto;
-    background-color: rgb(33, 36, 41);
+    background-color: $dark-blue-3;
     font-size: 24px;
     white-space: nowrap;
     overflow: hidden;
@@ -52,19 +54,19 @@
   }
 
   &__amount-power {
-    color: #757575;
+    color: $gray-3;
     font-size: 20px;
   }
 
   &__expected-win {
     font-weight: 500;
     font-size: 14px;
-    color: rgb(195, 197, 203);
+    color: $gray-1;
     padding: 10px;
 
     &-amount {
       margin-left: 5px;
-      color: rgb(39, 174, 96);
+      color: $green-2;
       font-size: 16px;
     }
   }
@@ -83,7 +85,7 @@
 
     &__multiplier {
       display: inline-block;
-      color:#757575;
+      color:$gray-3;
       font-size: 11px;
       margin-left: 6px;
     }

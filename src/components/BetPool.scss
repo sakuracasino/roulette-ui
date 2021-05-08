@@ -1,3 +1,5 @@
+@import '../variables';
+
 @keyframes expandBet {
   0% {
     max-height: 0;
@@ -25,7 +27,7 @@
     justify-content: flex-start;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-    border: 1px solid rgb(64, 68, 79);
+    border: 1px solid $dark-blue-1;
     border-right: 0;
     max-height: 430px;
     overflow-y: auto;
@@ -48,7 +50,7 @@
     }
 
     &__amount {
-      color: #c3c5cb;
+      color: $gray-1;
       width: 50px;
       text-align: left;
     }
@@ -73,23 +75,23 @@
       font-weight: 600;
       font-size: 20px;
       line-height: 1;
-      color: rgb(33, 114, 229);
+      color: $blue-1;
     }
   }
 
   &__max-win {
     font-size: 13px;
-    color: #c3c5cb;
+    color: $gray-1;
     text-align: right;
     cursor: pointer;
 
     &-number {
-      color: rgb(39, 174, 96);
+      color: $green-2;
       padding: 2px;
       border-radius: 4px;
 
       &:hover {
-        color: rgba(39, 174, 96, 0.5);
+        color: rgba($green-2, 0.5);
       }
     }
   }
@@ -153,7 +155,7 @@
 
     &[disabled] {
       font-size: 14px;
-      background: #40444f;
+      background: $dark-blue-1;
       color: #aab3cf;
       cursor: auto;
       box-shadow: none;

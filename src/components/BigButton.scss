@@ -1,3 +1,5 @@
+@import '../variables';
+
 .BigButton {
   padding: 18px;
   width: 100%;
@@ -17,11 +19,11 @@
   cursor: pointer;
   position: relative;
   z-index: 1;
-  background-color: rgb(33, 114, 229);
+  background-color: $blue-1;
   color: white;
 
   &[disabled] {
-    background-color: rgb(64, 68, 79);
+    background-color: $dark-blue-1;
     color: rgb(108, 114, 132);
     cursor: auto;
     box-shadow: none;
@@ -33,9 +35,7 @@
 $loader-border: .22em;
 $loader-size: 2em;
 $loader-color-background: rgba(255, 255, 255, 0.2);
-// $loader-color-background: rgba(21, 61, 111, 0.44);
-// $loader-color: #fff;
-$loader-color: #2172e5;
+$loader-color: $blue-1;
 
 .loader,
 .loader:after {

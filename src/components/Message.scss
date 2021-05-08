@@ -1,25 +1,27 @@
+@import '../variables';
+
 .Message {
   border-radius: 12px;
   margin-bottom: 20px;
   font-size: 1rem;
   font-weight: 500;
   color: white;
-  border: 1px solid #40444f;
+  border: 1px solid $dark-blue-1;
   padding: 1rem;
   
   &--error {
-    color: #fd4040;
-    border: 1px solid #fd4040;
+    color: $red-2;
+    border: 1px solid $red-2;
   
   }
 
   &--info {
-    border: 1px solid #2172e5;
+    border: 1px solid $blue-1;
   }
 
   &--warning {
-    background-color: rgba(243, 132, 30, 0.2);
-    color: rgb(243, 132, 30);
+    background-color: rgba($orange-1, 0.2);
+    color: $orange-1;
     border: 0;
   }
 }

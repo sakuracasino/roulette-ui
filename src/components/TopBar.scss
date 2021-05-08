@@ -1,3 +1,5 @@
+@import '../variables';
+
 .TopBar {
   display: flex;
   justify-content: space-between;
@@ -32,14 +34,14 @@
       margin-right: 30px;
       cursor: pointer;
 
-      color: rgb(195, 197, 203);
+      color: $gray-1;
       &:hover {
-        color: rgb(230, 230, 230);
+        color: $gray-2;
       }
       &.active {
         border-radius: 12px;
         font-weight: 600;
-        color: rgb(255, 255, 255);
+        color: white;
       }
     }
   }
@@ -54,8 +56,8 @@
     margin: 0px;
     min-width: 0px;
     width: 100%;
-    background-color: rgba(243, 132, 30, 0.05);
-    color: rgb(243, 132, 30);
+    background-color: rgba($orange-1, 0.05);
+    color: $orange-1;
     font-weight: 500;
     border-radius: 12px;
     padding: 8px 12px;
@@ -63,7 +65,7 @@
     transition: all 0.25s ease-out;
 
     &:hover {
-      background-color: rgba(243, 132, 30, 0.1);
+      background-color: rgba($orange-1, 0.1);
     }
   }
 }

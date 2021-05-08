@@ -1,3 +1,5 @@
+@import '../variables';
+
 .BetLayout {
   position: relative;
   padding-top: 17.5px;
@@ -11,7 +13,7 @@
   
   &__layout {
     position: relative;
-    border: 1px solid rgb(64, 68, 79);
+    border: 1px solid $dark-blue-1;
   }
 
   &__payout {

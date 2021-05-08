@@ -1,8 +1,28 @@
+@import '../variables';
+
 .BetPlacer {
   display: flex;
   justify-content: center;
   margin-top: 40px;
 
   &__bet-layout {
+  } 
+}
+
+@media only screen and (max-width: 1250px) {
+  .BetPlacer {
+    display: block;
+
+    .LastRolls {
+      width: auto;
+    }
+
+    .BetLayout__layout {
+      text-align: center;
+
+      & > div {
+        display: inline-block;
+      }
+    }
   }
 }

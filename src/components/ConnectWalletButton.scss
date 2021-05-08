@@ -1,3 +1,5 @@
+@import '../variables';
+
 .ConnectWalletButton {
   text-align: center;
   outline: none;
@@ -17,18 +19,18 @@
   cursor: pointer;
   user-select: none;
   font-weight: 500;
-  background-color: rgba(21, 61, 111, 0.44);
-  border: 1px solid rgba(21, 61, 111, 0.44);
-  color: rgb(109, 168, 255);
+  background-color: $transparent-dark-1;
+  border: 1px solid $transparent-dark-1;
+  color: $blue-2;
 
   &:hover {
-    border: 1px solid rgba(49, 95, 154, 0.44);
-    color: rgb(83, 153, 255);
+    border: 1px solid $transparent-dark-2;
+    color: $blue-3;
   }
 
   &--error {
-    background-color: rgb(253, 64, 64);
-    border: 1px solid rgb(253, 64, 64);
+    background-color: $red-2;
+    border: 1px solid $red-2;
     color: white;
 
     &:hover {
@@ -38,21 +40,21 @@
 
   &--account {
     outline: none;
-    border: 1px solid rgb(64, 68, 79);
-    background-color: rgb(44, 47, 54);
+    border: 1px solid $dark-blue-1;
+    background-color: $dark-blue-2;
     color: white;
     font-size: 1rem;
     width: fit-content;
     font-weight: 500;
 
     &:hover {
-      background-color: rgb(64, 68, 79);
+      background-color: $dark-blue-1;
       color: white;
     }
   }
 
   &__balance-container {
-    background-color: rgb(64, 68, 79);
+    background-color: $dark-blue-1;
     border-radius: 12px;
 
     .ConnectWalletButton {
@@ -81,13 +83,13 @@
 
   &__body {
     padding: 1.2rem;
-    background-color: rgb(44, 47, 54);
+    background-color: $dark-blue-2;
   }
 
   &__connector {
-    background-color: rgb(44, 47, 54);
+    background-color: $dark-blue-2;
     outline: none;
-    border: 1px solid rgb(64, 68, 79);
+    border: 1px solid $dark-blue-1;
     border-radius: 12px;
     display: flex;
     flex-direction: row;
@@ -103,13 +105,13 @@
 
     &:hover {
       cursor: pointer;
-      border: 1px solid rgb(33, 114, 229);
+      border: 1px solid $blue-1;
     }
 
     &-name {
      display: flex;
       flex-flow: row nowrap;
-      color: rgb(255, 255, 255);
+      color: white;
       font-size: 1rem;
       font-weight: 500;
     }
@@ -126,7 +128,7 @@
     }
 
     &--current {
-      background-color: rgb(64, 68, 79);
+      background-color: $dark-blue-1;
       border: 1px solid transparent;
       cursor: default;
       pointer-events: none;
@@ -148,7 +150,7 @@
 }
 
 .Address {
-  background-color: rgb(44, 47, 54);
+  background-color: $dark-blue-2;
   border: 1px solid rgba(55, 107, 173, 0.44);
   border-radius: 12px;
   padding: 1rem;
@@ -157,7 +159,7 @@
   text-align: center;
 
   &__label {
-    color: rgb(33, 114, 229);
+    color: $blue-1;
     margin-bottom: 3px;
   }
 }
