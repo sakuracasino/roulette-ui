@@ -71,7 +71,7 @@ const LastRolls = () => {
         {
           rolls
             .filter(roll => showAllRolls || roll.sender === account)
-            .filter((_, index) => index < 100)
+            .filter((_, index) => index < 30)
             .map(renderRoll)
         }
       </div>

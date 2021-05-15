@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Web3Provider } from '@ethersproject/providers'
 import { Web3ReactProvider } from '@web3-react/core';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import 'inter-ui';
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
@@ -13,6 +14,7 @@ import './index.scss';
 import store from './flux/store';
 import Layout from './components/Layout';
 import BetPage from './components/BetPage';
+import PoolPage from './components/PoolPage';
 
 (window as any).global = window;
 // @ts-ignore
@@ -25,9 +27,18 @@ function getWeb3Library(provider, connector) {
 ReactDOM.render(
   <Web3ReactProvider getLibrary={getWeb3Library}>
     <Provider store={store}>
+      <Router>
         <Layout>
-          <BetPage />
+          <Switch>
+            <Route path="/" exact>
+              <BetPage />
+            </Route>
+            <Route path="/pool">
+              <PoolPage />
+            </Route>
+          </Switch>
         </Layout>
+      </Router>
     </Provider>
   </Web3ReactProvider>,
   document.getElementById('root'),

@@ -3,56 +3,6 @@
 .BetFormDialog {
   min-width: 400px;
 
-  &__amount-label {
-    display: flex;
-    flex-flow: column nowrap;
-    position: relative;
-    z-index: 1;
-    border-radius: 20px;
-    border: 1px solid $dark-blue-2;
-    background-color: $dark-blue-3;
-  }
-
-  &__amount-label-text {
-    display: flex;
-    flex-flow: row nowrap;
-    -webkit-box-align: center;
-    align-items: center;
-    line-height: 1rem;
-    padding: 0.75rem 1rem 0px;
-    box-sizing: border-box;
-    margin: 0px;
-    min-width: 0px;
-    font-weight: 500;
-    font-size: 14px;
-    color: $gray-1;
-  }
-
-  &__amount-input {
-    color: rgb(255, 255, 255);
-    width: 0px;
-    position: relative;
-    font-weight: 500;
-    outline: none;
-    border: none;
-    flex: 1 1 auto;
-    background-color: $dark-blue-3;
-    font-size: 24px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0px;
-    appearance: textfield;
-  }
-
-  &__amount-input-container {
-    display: flex;
-    flex-flow: row nowrap;
-    -webkit-box-align: center;
-    align-items: center;
-    padding: 0.75rem 0.75rem 0.75rem 1rem;
-  }
-
   &__amount-power {
     color: $gray-3;
     font-size: 20px;

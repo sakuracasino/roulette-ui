@@ -7,7 +7,7 @@ import { formatEther } from '@ethersproject/units';
 import classNames from 'classnames';
 
 import NetworkHelper from '../libs/NetworkHelper';
-import { visitRequestIdAlert } from '../flux/slices/networkSlice';
+import { visitRequestIdAlert, updateNetwork} from '../flux/slices/networkSlice';
 import { AppState } from '../flux/store';
 import Dialog from './Dialog';
 
@@ -36,6 +36,7 @@ const ResultDialog = () => {
         setPayout(Number(payout) ? payout : '');
         setResult(result);
         dispatch(visitRequestIdAlert(requestId));
+        dispatch(updateNetwork(web3React));
       };
       roulette.on('BetResult', betResultCallback);
       return () => {

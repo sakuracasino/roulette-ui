@@ -1,0 +1,59 @@
+@import '../variables';
+
+.PoolPage {
+
+  .LiquidityBlock {
+    background-color: $dark-blue-1;
+    border-radius: $border-radius;
+    padding: 1em;
+    color: white;
+    font-size: 1rem;
+    width: fit-content;
+    font-weight: 500;
+    max-width: 640px;
+    width: 100%;
+
+    &__container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    &__info-table {
+
+    }
+    &__info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    &__label {
+
+    }
+    &__value {
+
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+
+      button {
+        font-size: 16px;
+        font-weight: 500;
+        padding: 8px;
+        width: 48%;
+        max-width: 228px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        background-color: $blue-1;
+        color: white;
+      }
+    }
+  }
+
+  &__add-dialog {
+    width: 400px;
+  }
+}

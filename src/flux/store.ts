@@ -1,12 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {createStore, applyMiddleware} from 'redux';
 import {routerMiddleware} from 'react-router-redux';
 import {logger} from 'redux-logger';
 import thunk from 'redux-thunk';
-import {combineReducers} from 'redux';
 import {createBrowserHistory} from 'history';
 import { save, load } from 'redux-localstorage-simple';
-import {routerReducer} from 'react-router-redux';
+import { routerReducer } from 'react-router-redux';
 
 import betPoolReducer from './slices/betPoolSlice';
 import networkReducer from './slices/networkSlice';
