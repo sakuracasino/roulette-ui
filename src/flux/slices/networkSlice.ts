@@ -8,6 +8,7 @@ type NetworkReducerStateType = {
   alertedRequestIds: {[key: string]: boolean;};
   accountBetHistory: string[];
   accountBalance: number;
+  contractLiquidityBalance: number;
   maxBet: number;
 };
 
@@ -16,6 +17,7 @@ const initialState: NetworkReducerStateType = {
   alertedRequestIds: {},
   accountBetHistory: [],
   accountBalance: 0,
+  contractLiquidityBalance: 0,
   maxBet: Infinity,
 };
 
@@ -27,10 +29,12 @@ export const updateNetwork = createAsyncThunk(
       const rouletteContract = networkHelper.getRouletteContract();
       const balance = await networkHelper.getBetTokenBalance(web3React.account || '');
       const maxBet = Number(networkHelper.fromTokenDecimals((await rouletteContract.getMaxBet())));
+      const contractLiquidityBalance = Number(await networkHelper.getBetTokenBalance((rouletteContract.address)));
       return {
         account: web3React.account,
         accountBetHistory: [],
         accountBalance: Number(balance),
+        contractLiquidityBalance,
         maxBet,
       };
     } else {
@@ -54,6 +58,7 @@ const networkSlice = createSlice({
         ...state,
         account: action.payload.account,
         accountBalance: action.payload.accountBalance,
+        contractLiquidityBalance: action.payload.contractLiquidityBalance,
         maxBet: action.payload.maxBet
       }
     }

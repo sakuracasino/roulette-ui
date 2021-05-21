@@ -26,12 +26,10 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 10px;
-    }
-    &__label {
-
-    }
-    &__value {
-
+    
+      &:first-child {
+        color: $blue-1;
+      }
     }
 
     &__actions {
@@ -49,11 +47,29 @@
         border: 1px solid transparent;
         background-color: $blue-1;
         color: white;
+        outline: none;
+        cursor: pointer;
       }
     }
   }
+}
 
-  &__add-dialog {
-    width: 400px;
+.AddLiquidityDialog {
+  width: 400px;
+
+  &__title {
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  &__liquidity-share {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+
+    &-value {
+      color: $gray-1;
+    }
   }
 }
