@@ -1,5 +1,17 @@
 @import '../variables';
 
+@keyframes shake {
+  0% {
+    margin-left: -10px;
+  }
+  50% {
+    margin-left: 10px;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+
 .Dialog {
   color: white;
   .react-responsive-modal-modal {
@@ -16,5 +28,9 @@
     &:focus {
       outline: none;
     }
+  }
+
+  &--shake {
+    animation: shake 0.1s linear 3;
   }
 }

@@ -29,7 +29,6 @@ export default function TopBar() {
     setMintLoading(false);
     dispatch(updateNetwork(web3React));
   }, [web3React.active, dispatch]);
-  console.log('pathname', location.pathname);
 
   return (
     <div className="TopBar">
