@@ -85,6 +85,19 @@ export default class NetworkHelper {
     return contracts.get(contractHash);
   }
 
+  async getRouletteTotalLiquidity() {
+    const rouletteContract = await this.getRouletteContract();
+    return Number(await this.getBetTokenBalance((rouletteContract.address)));
+  }
+
+  async getAddressLiquidity(address: string) {
+    const totalLiquidity = await this.getRouletteTotalLiquidity();
+    const roulette = await this.getRouletteContract();
+    const totalShares = Number(this.fromTokenDecimals(await roulette.totalSupply()));
+    const addressShares = Number(this.fromTokenDecimals(await roulette.balanceOf(address)))
+    return totalLiquidity * (addressShares / totalShares);
+  }
+
   async getRollHistory(): Promise<RollLog[]> {
     const roulette = await this.getRouletteContract();
     const betRequestHistory = await roulette.queryFilter('BetRequest');

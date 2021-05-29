@@ -31,7 +31,7 @@ const AddLiquidityDialog = function ({opened, onClose}: {opened: boolean, onClos
     await addLiquidityTx.wait(1);
     onClose();
     dispatch(updateNetwork(web3React));
-  }, [networkHelper, amount, onClose]);
+  }, [networkHelper, amountWei, onClose]);
 
   useEffect(() => {
     if (opened) setAmount('');
@@ -65,6 +65,7 @@ const AddLiquidityDialog = function ({opened, onClose}: {opened: boolean, onClos
 const PoolPage = function () {
   const [addLiquidityDialogOpened, setAddLiquidityDialogState] = useState(false);
   const contractLiquidityBalance: number = useSelector((state: AppState) => state.network.contractLiquidityBalance);
+  const accountLiquidity: number = useSelector((state: AppState) => state.network.accountLiquidity);
   return (
     <div className="PoolPage">
       <div className="LiquidityBlock__container">
@@ -76,11 +77,11 @@ const PoolPage = function () {
               </div>
               <div className="LiquidityBlock__info">
                 <div className="LiquidityBlock__label">Your staked amount</div>
-                <div className="LiquidityBlock__value">- <span className="staked-token">{BET_TOKEN}</span></div>
+                <div className="LiquidityBlock__value">{accountLiquidity ? accountLiquidity.toFixed(2) : '-'} <span className="staked-token">{BET_TOKEN}</span></div>
               </div>
               <div className="LiquidityBlock__info">
                 <div className="LiquidityBlock__label">Your pool share</div>
-                <div className="LiquidityBlock__value">-</div>
+                <div className="LiquidityBlock__value">{accountLiquidity ? `${(100 * accountLiquidity / contractLiquidityBalance).toFixed(2)}%` : '-'}</div>
               </div>
             </div>
             <div className="LiquidityBlock__actions">
