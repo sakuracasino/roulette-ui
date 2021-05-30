@@ -19,9 +19,6 @@
       margin-top: 20px;
     }
 
-    &__info-table {
-
-    }
     &__info {
       display: flex;
       justify-content: space-between;
@@ -54,7 +51,8 @@
   }
 }
 
-.AddLiquidityDialog {
+.AddLiquidityDialog,
+.RemoveLiquidityDialog {
   width: 400px;
 
   &__title {
