@@ -28,7 +28,7 @@ const RemoveLiquidityDialog = function ({opened, onClose}: {opened: boolean, onC
       setLoading(true);
       const removeLiquidityTx = await roulette.removeLiquidity({from: account});
       await removeLiquidityTx.wait(1);
-      dispatch(updateNetwork(web3React));  
+      dispatch(updateNetwork(web3React));
       setLoading(false);
       onClose();
     } catch(error) {

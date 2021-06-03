@@ -53,11 +53,10 @@ const RollDialog = () => {
     try {
       const rollTx = await roulette.rollBets(betsForContract, `${random32()}`, ..._signatureParams);
       setLoading(true);
-      await new Promise(r => setTimeout(r, 2000)); // TODO: sleep 2 sec, remove
       const {events} = await rollTx.wait(1);
       const betRequestEvent = events.find((e: Web3Event) => e.event === 'BetRequest');
       const betResultEvent = events.find((e: Web3Event) => e.event === 'BetResult');
-      if(betRequestEvent) {
+      if (betRequestEvent) {
         setRequestId(betRequestEvent['args']['requestId']);
         dispatch(updateNetwork(web3React));
       }
@@ -71,7 +70,7 @@ const RollDialog = () => {
   }, [web3React, bets]);
 
   useEffect(() => {
-    if(web3React.active) {
+    if (web3React.active) {
       const networkHelper = new NetworkHelper(web3React);
       const roulette = networkHelper.getRouletteContract();
       roulette.on('BetResult', (_requestId: string) => {
@@ -79,7 +78,7 @@ const RollDialog = () => {
         dispatch(updateNetwork(web3React));
       });
     }
-  }, [web3React.active]);
+  }, [web3React.active, requestId]);
 
   return (
     <Dialog open={opened} onCloseModal={closeModal} className="RollDialog__container" animation={animation}>
