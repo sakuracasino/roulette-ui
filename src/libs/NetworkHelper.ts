@@ -134,6 +134,11 @@ export default class NetworkHelper {
     return this.fromTokenDecimals((await tokenContract.balanceOf(account)))
   }
 
+  public async getBetFee() {
+    const roulette = await this.getRouletteContract();
+    return this.fromTokenDecimals(await roulette.getBetFee());
+  }
+
   public getBetsForContract(bets: Bet[]) {
     return bets.map((bet: Bet) => ({
       betType: `${bet.type}`,

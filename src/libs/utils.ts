@@ -1,5 +1,3 @@
-import { Contract } from '@ethersproject/contracts';
-import { BlockTag } from '@ethersproject/providers';
 import { Bet, BetCell, BetType } from '../types.d';
 
 const RED_NUMBERS = [

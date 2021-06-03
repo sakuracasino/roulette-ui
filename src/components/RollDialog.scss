@@ -53,6 +53,8 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
+    padding: 0 10px;
+    border-radius: 6px;
 
     &-description {
       font-weight: 400;
@@ -67,6 +69,12 @@
       &.highlighted {
         color: $blue-1;
       }
+    }
+
+    &:last-child {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: $dark-blue-3;
     }
   }
 

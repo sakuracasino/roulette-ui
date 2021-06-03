@@ -38,12 +38,12 @@ const RollDialog = () => {
     setLoading(false);
     dispatch(toggleRollDialog(false));
   };
-  const betFee = 0.10; // TODO: Replace with contract value
+  const betFee: number = useSelector((state: AppState) => state.network.betFee);
   const networkHelper = new NetworkHelper(web3React);
   const betsForContract = networkHelper.getBetsForContract(bets);
   const totalAmountBN = betsForContract.reduce(
     (amount, bet) => amount.add(BigNumber.from(bet.amount)),
-    BigNumber.from('0')
+    BigNumber.from(networkHelper.toTokenDecimals(betFee))
   );
 
   const rollBets = useCallback(async (_signatureParams) => {
@@ -102,14 +102,6 @@ const RollDialog = () => {
               <div className="RollDialog__fees">
                 <div className="RollDialog__fee">
                   <div className="RollDialog__fee-description">
-                    Total Price
-                  </div>
-                  <div className="RollDialog__fee-price highlighted">
-                    {`${(betAmount + betFee).toFixed(2)} ${BET_TOKEN}`}
-                  </div>
-                </div>
-                <div className="RollDialog__fee">
-                  <div className="RollDialog__fee-description">
                     Bet Amount
                   </div>
                   <div className="RollDialog__fee-price">
@@ -118,10 +110,18 @@ const RollDialog = () => {
                 </div>
                 <div className="RollDialog__fee">
                   <div className="RollDialog__fee-description">
-                    Bet fee
+                    Fee
                   </div>
                   <div className="RollDialog__fee-price">
                     {`${betFee.toFixed(2)} ${BET_TOKEN}`}
+                  </div>
+                </div>
+                <div className="RollDialog__fee">
+                  <div className="RollDialog__fee-description">
+                    Total
+                  </div>
+                  <div className="RollDialog__fee-price highlighted">
+                    {`${(betAmount + betFee).toFixed(2)} ${BET_TOKEN}`}
                   </div>
                 </div>
               </div>

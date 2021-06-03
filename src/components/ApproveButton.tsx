@@ -7,6 +7,7 @@ import BigButton from './BigButton';
 import Message from './Message';
 import NetworkHelper from '../libs/NetworkHelper';
 import './ApproveButton.scss';
+import classNames from 'classnames';
 
 type ApproveButtonProps = {
   label: string,
@@ -71,11 +72,16 @@ const ApproveButton = ({label, amount, onSubmit, onError, closed}: ApproveButton
     }
   }, [onSubmit]);
 
+  const classes = classNames({
+    'ApproveButton': true,
+    'ApproveButton--approved': !amount.isZero() && signatureParams.length
+  });
+
   return (
     <div>
       {error ? <Message type="error">{error}</Message> : null}
       <BigButton
-        className="ApproveButton"
+        className={classes}
         loading={loading}
         disabled={amount.isZero()}
         onClick={() => signatureParams.length ? callSumbit(signatureParams) : approve()}>

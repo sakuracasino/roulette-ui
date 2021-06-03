@@ -17,10 +17,10 @@ const RemoveLiquidityDialog = function ({opened, onClose}: {opened: boolean, onC
   const dispatch = useDispatch();
   const web3React = useWeb3React<Web3Provider>();
   const [animation, animate] = useDialogAnimation();
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(false);
   const networkHelper = new NetworkHelper(web3React);
   const account: string = useSelector((state: AppState) => state.network.account);
-  const accountLiquidity: number = useSelector((state: AppState) => state.network.accountLiquidity);
+  const accountLiquidity: number = useSelector((state: AppState) => state.network.accountLiquidity) || 0;
 
   const removeLiquidity = useCallback(async () => {
     const roulette = networkHelper.getRouletteContract();

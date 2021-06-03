@@ -2,4 +2,8 @@
 
 .ApproveButton {
   margin-top: 15px;
+
+  &--approved {
+    background-color: $green-1;
+  }
 }
