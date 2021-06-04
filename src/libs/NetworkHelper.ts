@@ -8,7 +8,7 @@ import { MaxUint256 } from '@ethersproject/constants';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import { ERC20_PERMIT } from '../data/abis';
-import { Bet, Network } from '../types';
+import { Bet, BetForContract, Network } from '../types';
 import { getPermitData } from './permit';
 
 export const networks = process.env.NODE_ENV !== 'development' ? deployedNetworks : [
@@ -121,6 +121,23 @@ export default class NetworkHelper {
     return betHistory;
   }
 
+  async addLiquidity(amount: BigNumber, ...signature: any[]) {
+    const roulette = await this.getRouletteContract();
+    const method = signature.length > 1 ? 'addLiquidity(uint256,uint256,uint256,bool,uint8,bytes32,bytes32)' : 'addLiquidity(uint256)';
+    return roulette[method](amount, ...signature);
+  }
+
+  async removeLiquidity() {
+    const roulette = await this.getRouletteContract();
+    return roulette.removeLiquidity();
+  }
+
+  async rollBets(betsForContract: BetForContract[], randomSeed: string, ...signature: any[]) {
+    const roulette = await this.getRouletteContract();
+    const method = signature.length > 1 ? 'rollBets((uint8,uint8,uint256)[],uint256,uint256,uint256,bool,uint8,bytes32,bytes32)' : 'rollBets((uint8,uint8,uint256)[],uint256)';
+    return roulette[method](betsForContract, randomSeed, ...signature);
+  }
+
   public toTokenDecimals(value: number) {
     return parseEther(`${value}`);
   }
@@ -139,7 +156,7 @@ export default class NetworkHelper {
     return this.fromTokenDecimals(await roulette.getBetFee());
   }
 
-  public getBetsForContract(bets: Bet[]) {
+  public getBetsForContract(bets: Bet[]): BetForContract[] {
     return bets.map((bet: Bet) => ({
       betType: `${bet.type}`,
       value: `${bet.value}`,
@@ -150,19 +167,34 @@ export default class NetworkHelper {
   public async approveTokenAmount(amount: BigNumber): Promise<any[]> {
     const tokenContract = await this.getBetTokenContract();
     const rouletteContract = await this.getRouletteContract();
-    const deadline = MaxUint256.toString();
+
+    if (tokenContract.permit) {
+      return await this.permitTokenUsage();
+    }
+
+    await tokenContract.approve(rouletteContract.address, amount);
+    return [{from: this.account}];
+  }
+
+  private async permitTokenUsage(): Promise<any[]> {
+    const tokenContract = await this.getBetTokenContract();
+    const rouletteContract = await this.getRouletteContract();
+    const expiry = MaxUint256.toString();
+    const nonce = (await tokenContract.nonces(this.account || '')).toString();
     const data = await getPermitData({
       chainId: this.chainId,
       tokenContract,
-      owner: this.account || '',
+      holder: this.account || '',
       spender: rouletteContract.address,
-      amount,
-      deadline,
+      expiry,
+      nonce,
     });
-    const rawSignature = await this.web3React.library?.send('eth_signTypedData_v4', [this.account, data]);
+    const rawSignature = await this.web3React.library?.send('eth_signTypedData_v3', [this.account, data]);
     const signature = splitSignature(rawSignature);
     return [
-      deadline,
+      nonce,
+      expiry,
+      true,
       `${signature.v}`,
       signature.r,
       signature.s,

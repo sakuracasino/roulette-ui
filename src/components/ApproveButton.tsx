@@ -28,6 +28,7 @@ const getErrorMessage = (error: {message: string, code: number}) => {
 
 const ApproveButton = ({label, amount, onSubmit, onError, closed}: ApproveButtonProps) => {
   const [signatureParams, setSignatureParams] = useState<any[]>([]);
+  const [approved, setApproved] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const web3React = useWeb3React<Web3Provider>();
@@ -36,6 +37,7 @@ const ApproveButton = ({label, amount, onSubmit, onError, closed}: ApproveButton
     if (closed) {
       setError('');
       setLoading(false);
+      setApproved(false);
       setSignatureParams([]);
     }
   }, [closed]);
@@ -46,6 +48,7 @@ const ApproveButton = ({label, amount, onSubmit, onError, closed}: ApproveButton
     try {
       const _signatureParams = await networkHelper.approveTokenAmount(amount);
       setSignatureParams(_signatureParams);
+      setApproved(true);
       setLoading(false);
       setError('');
     } catch (_error) {
@@ -53,6 +56,7 @@ const ApproveButton = ({label, amount, onSubmit, onError, closed}: ApproveButton
       onError(error);
       setError(error);
       setLoading(false);
+      setApproved(false);
       setSignatureParams([]);
     }
   }, [web3React, amount, onError]);
@@ -69,12 +73,13 @@ const ApproveButton = ({label, amount, onSubmit, onError, closed}: ApproveButton
       setError(error);
       setLoading(false);
       setSignatureParams([]);
+      setApproved(false);
     }
   }, [onSubmit]);
 
   const classes = classNames({
     'ApproveButton': true,
-    'ApproveButton--approved': !amount.isZero() && signatureParams.length
+    'ApproveButton--approved': !amount.isZero() && approved
   });
 
   return (
@@ -84,7 +89,7 @@ const ApproveButton = ({label, amount, onSubmit, onError, closed}: ApproveButton
         className={classes}
         loading={loading}
         disabled={amount.isZero()}
-        onClick={() => signatureParams.length ? callSumbit(signatureParams) : approve()}>
+        onClick={() => approved ? callSumbit(signatureParams) : approve()}>
         {
           amount.isZero() ?
             'Enter an amount' :

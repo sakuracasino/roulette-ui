@@ -1,5 +1,4 @@
 import { Contract } from '@ethersproject/contracts'
-import { BigNumber } from "@ethersproject/bignumber";
 
 const EIP712Domain = [
   { name: 'name', type: 'string' },
@@ -9,31 +8,30 @@ const EIP712Domain = [
 ];
 
 const Permit = [
-  { name: 'owner', type: 'address' },
+  { name: 'holder', type: 'address' },
   { name: 'spender', type: 'address' },
-  { name: 'value', type: 'uint256' },
   { name: 'nonce', type: 'uint256' },
-  { name: 'deadline', type: 'uint256' }
+  { name: 'expiry', type: 'uint256' },
+  { name: 'allowed', type: 'bool' }
 ];
 
 type PermitParams = {
   chainId: number,
   tokenContract: Contract,
-  owner: string,
+  holder: string,
   spender: string,
-  amount: BigNumber,
-  deadline: string,
+  expiry: string,
+  nonce: string,
 };
 
 export const getPermitData = async function ({
   chainId,
   tokenContract,
-  owner,
+  holder,
   spender,
-  amount,
-  deadline,
+  expiry,
+  nonce,
 }: PermitParams) {
-  const nonce = await tokenContract.nonces(owner);
   const name = await tokenContract.name();
   const domain = {
     name,
@@ -43,11 +41,11 @@ export const getPermitData = async function ({
   };
   
   const message = {
-    owner,
+    holder,
     spender,
-    value: amount.toString(),
-    nonce: nonce.toString(),
-    deadline,
+    nonce,
+    expiry,
+    allowed: true,
   };
 
   const data = JSON.stringify({

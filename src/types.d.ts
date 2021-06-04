@@ -24,6 +24,12 @@ export interface BetCellGraphic extends BetCell {
   strokeColor?: string,
 }
 
+export interface BetForContract {
+  betType: string,
+  value: string,
+  amount: string,
+}
+
 export interface Network {
   name: string;
   chain_id: number;

@@ -69,8 +69,7 @@ const AddLiquidityDialog = function ({opened, onClose}: {opened: boolean, onClos
   const amountWei = networkHelper.toTokenDecimals(Number(amount) || 0);
 
   const addLiquidity = useCallback(async (signatureParams: any[]) => {
-    const roulette = networkHelper.getRouletteContract();
-    const addLiquidityTx = await roulette.addLiquidity(amountWei, ...signatureParams);
+    const addLiquidityTx = await networkHelper.addLiquidity(amountWei, ...signatureParams);
     await addLiquidityTx.wait(1);
     onClose();
     dispatch(updateNetwork(web3React));

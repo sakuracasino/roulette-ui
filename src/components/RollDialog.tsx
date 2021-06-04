@@ -51,7 +51,7 @@ const RollDialog = () => {
     const roulette = networkHelper.getRouletteContract();
     const betsForContract = networkHelper.getBetsForContract(bets);
     try {
-      const rollTx = await roulette.rollBets(betsForContract, `${random32()}`, ..._signatureParams);
+      const rollTx = await networkHelper.rollBets(betsForContract, `${random32()}`, ..._signatureParams);
       setLoading(true);
       const {events} = await rollTx.wait(1);
       const betRequestEvent = events.find((e: Web3Event) => e.event === 'BetRequest');
