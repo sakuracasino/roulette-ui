@@ -37,8 +37,12 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
               npm run build
-              aws s3 sync dist s3://sakura-roulette-ui/ --delete
-              aws s3 cp dist/index.html s3://sakura-roulette-ui/ --cache-control max-age=0
+              aws s3 sync dist s3://appdev.sakura.casino/ --delete
+              aws s3 cp dist/index.html s3://appdev.sakura.casino/ --cache-control max-age=0
+            elif [ "${CIRCLE_BRANCH}" = "production" ]; then
+              npm run build
+              aws s3 sync dist s3://app.sakura.casino/ --delete
+              aws s3 cp dist/index.html s3://app.sakura.casino/ --cache-control max-age=0
             else
               echo "Not master branch, dry run only"
             fi
