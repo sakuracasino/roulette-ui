@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { Web3Provider } from '@ethersproject/providers'
-import { useWeb3React } from '@web3-react/core'
+import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 
+import { NETWORK_URLS } from '../data/chains';
 import { networks } from '../libs/NetworkHelper';
 import { shortAccount } from '../libs/utils';
 import { updateNetwork } from '../flux/slices/networkSlice';
@@ -15,16 +17,19 @@ import { AppState } from '../flux/store';
 import Message from './Message';
 import Dialog from './Dialog';
 
+const supportedChainIds = networks.map((network: {chain_id: number}) => network.chain_id);
+
 const injectedConnector = new InjectedConnector({
-  supportedChainIds: networks.map((network: {chain_id: number}) => network.chain_id),
-})
+  supportedChainIds,
+});
 
 const walletconnect = new WalletConnectConnector({
-  rpc: { 42: 'https://kovan.infura.io/v3/082736a20e224d5ba41350cef02a7d45' },
+  supportedChainIds,
+  rpc: NETWORK_URLS,
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
-  pollingInterval: 12000
-})
+  pollingInterval: 15000
+});
 
 // @ts-ignore
 import MetamaskLogo from '../assets/metamask.png';
@@ -44,7 +49,7 @@ function getError(error: Error | undefined) {
   if (error) {
     switch(error.name) {
       case 'UnsupportedChainIdError':
-        const networksList = networks.map((network: {network: string}) => network.network).join(', ')
+        const networksList = networks.map((network: {title: string}) => network.title).join(', ')
         return (
           <div>
             Network is not supported, please use one of supported networks:
@@ -72,18 +77,23 @@ function Address({address} : {address: string}) {
   );
 }
 
-
 function ConnectDialog({opened, onClose}: {opened: boolean, onClose: () => void}) {
   const web3React = useWeb3React<Web3Provider>();
   const error = getError(web3React.error);
 
-  function activateMetamask() {
-    if (web3React.active) web3React.deactivate();
-    web3React.activate(injectedConnector);
-  }
-  function activateWalletConnect() {
-    if (web3React.active) web3React.deactivate();
-    web3React.activate(walletconnect, () => web3React.deactivate());
+  // kudos to Uniswap/uniswap-interface, thanks guys :'v
+  async function activateConnector(connector: AbstractConnector | undefined) {
+    // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
+    if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
+      connector.walletConnectProvider = undefined
+    }
+
+    connector &&
+      web3React.activate(connector, undefined, true).catch((error) => {
+        if (error instanceof UnsupportedChainIdError) {
+          web3React.activate(connector) // a little janky...can't use setError because the connector isn't set
+        }
+      });
   }
 
   const metamaskConnectorClasses = classNames({
@@ -105,11 +115,11 @@ function ConnectDialog({opened, onClose}: {opened: boolean, onClose: () => void}
         <div className="ConnectWalletDialog__body">
           {(web3React.active && web3React.account) ? <Address address={web3React.account} /> : null}
           {error ? <Message type="error">{error}</Message> : null}
-          <button className={metamaskConnectorClasses} onClick={activateMetamask}>
+          <button className={metamaskConnectorClasses} onClick={() => activateConnector(injectedConnector)}>
             <div className="ConnectWalletDialog__connector-name">Metamask</div>
             <img className="ConnectWalletDialog__connector-logo" src={MetamaskLogo} />
           </button>
-          <button className={walletconnectConnectorClasses} onClick={activateWalletConnect}>
+          <button className={walletconnectConnectorClasses} onClick={() => activateConnector(walletconnect)}>
             <div className="ConnectWalletDialog__connector-name">WalletConnect</div>
             <img className="ConnectWalletDialog__connector-logo" src={WalletConnectLogo} />
           </button>

@@ -14,7 +14,7 @@ import { getPermitData } from './permit';
 export const networks = process.env.NODE_ENV !== 'development' ? deployedNetworks : [
   ...deployedNetworks,
   {
-    "name": "Ganache",
+    "title": "Ganache",
     "chain_id": 1,
     "network_id": 1337,
     "network_name": "ganache",
