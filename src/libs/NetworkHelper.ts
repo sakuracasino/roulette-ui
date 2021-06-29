@@ -100,7 +100,7 @@ export default class NetworkHelper {
 
   async getRollHistory(): Promise<RollLog[]> {
     const roulette = await this.getRouletteContract();
-    const betRequestHistory = await roulette.queryFilter('BetRequest');
+    const betRequestHistory = await roulette.queryFilter('BetRequest', -900);
     const betResults = (
       await roulette.queryFilter('BetResult')
     ).reduce((results: any, betRequest: {args: {requestId: string, randomResult: BigNumber, payout: BigNumber}}) => {
@@ -124,18 +124,24 @@ export default class NetworkHelper {
   async addLiquidity(amount: BigNumber, ...signature: any[]) {
     const roulette = await this.getRouletteContract();
     const method = signature.length > 1 ? 'addLiquidity(uint256,uint256,uint256,bool,uint8,bytes32,bytes32)' : 'addLiquidity(uint256)';
-    return roulette[method](amount, ...signature);
+    const tx = await roulette[method](amount, ...signature);
+    await tx.wait(1);
+    return tx;
   }
 
   async removeLiquidity() {
     const roulette = await this.getRouletteContract();
-    return roulette.removeLiquidity();
+    const tx = roulette.removeLiquidity();
+    await tx.wait(1);
+    return tx;
   }
 
   async rollBets(betsForContract: BetForContract[], randomSeed: string, ...signature: any[]) {
     const roulette = await this.getRouletteContract();
     const method = signature.length > 1 ? 'rollBets((uint8,uint8,uint256)[],uint256,uint256,uint256,bool,uint8,bytes32,bytes32)' : 'rollBets((uint8,uint8,uint256)[],uint256)';
-    return roulette[method](betsForContract, randomSeed, ...signature);
+    const tx = await roulette[method](betsForContract, randomSeed, ...signature);
+    await tx.wait(1);
+    return tx;
   }
 
   public toTokenDecimals(value: number) {
@@ -168,11 +174,13 @@ export default class NetworkHelper {
     const tokenContract = await this.getBetTokenContract();
     const rouletteContract = await this.getRouletteContract();
 
-    if (tokenContract.permit) {
-      return await this.permitTokenUsage();
-    }
+    // TODO: Removed temporarly, intended for efficient DAI bets
+    // if (tokenContract.permit) {
+    //   return await this.permitTokenUsage();
+    // }
 
-    await tokenContract.approve(rouletteContract.address, amount);
+    const tx = await tokenContract.approve(rouletteContract.address, amount);
+    await tx.wait(1);
     return [{from: this.account}];
   }
 
