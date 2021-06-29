@@ -7,8 +7,11 @@ Crypto Roulette UI
 
 For generating a build use `npm run build` and the result will be in the `dist/` folder
 
-### Live Preview (synced with master)
-https://sakura.casino/
+### Live Preview
+https://appdev.sakura.casino/ (synced with `master` branch)
+
+https://app.sakura.casino/ (synced with `production` branch)
+
 
 ### Contract implementation:
 https://github.com/sakuracasino/roulette-contract
@@ -16,15 +19,15 @@ https://github.com/sakuracasino/roulette-contract
 
 ### Development Checklist
 
-[ ] Implementar max-bet limit error
+[x] Implementar max-bet limit error
+[x] Shaking modal error for failing events
+[x] Create color and font centralized file
+[x] Implement fees correctly
+[x] Add pooling UI
+[x] Implement permit used in DAI
 [ ] Add bet details modal
-[ ] Shaking modal error for failing events
-[ ] Create color and font centralized file
 [ ] Review linting
 [ ] Implement circleci tests
 [ ] Make responsive
-[ ] Implement fees correctly
-[ ] Implement permit used in DAI
-[ ] Add pooling UI
 [ ] Add about
 [ ] Add footer
