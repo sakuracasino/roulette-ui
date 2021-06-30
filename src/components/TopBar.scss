@@ -43,6 +43,14 @@
         font-weight: 600;
         color: white;
       }
+
+      a {
+        color: $gray-1;
+
+        &:hover {
+          color: $gray-2;
+        }
+      }
     }
   }
 

@@ -56,6 +56,7 @@ export default function TopBar() {
         <ul className="TopBar__menu">
           <li className={location.pathname === '/' ? 'active' : ''} onClick={() => history.push('/')}>Bet</li>
           <li className={location.pathname === '/pool' ? 'active' : ''} onClick={() => history.push('/pool')}>Pool</li>
+          <li><a href="https://docs.sakura.casino/" target="_blank"><i className="fa fa-question-circle"></i></a></li>
         </ul>
         {web3React.active && web3React.chainId === ChainId.POLYGON_TESTNET && <div className="dai-mint-container">
           <div className="dai-mint-btn" onClick={mintLoading ? undefined : onTokenDropClick}>
