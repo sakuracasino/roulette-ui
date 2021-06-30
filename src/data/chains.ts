@@ -9,7 +9,7 @@ export enum ChainId {
   POLYGON_MAINNET = 137,
   POLYGON_TESTNET = 80001,
 };
-/*
+
 export const NETWORK_LABELS: { [chainId in ChainId | number]: string } = {
   [ChainId.MAINNET]: 'Mainnet',
   [ChainId.RINKEBY]: 'Rinkeby',
@@ -19,7 +19,7 @@ export const NETWORK_LABELS: { [chainId in ChainId | number]: string } = {
   [ChainId.POLYGON_MAINNET]: 'Polygon (Matic)',
   [ChainId.POLYGON_TESTNET]: 'Polygon Testnet (Mumbai)',
 }
-*/
+
 export const NETWORK_URLS: {
   [chainId in ChainId]: string
 } = {
@@ -30,4 +30,16 @@ export const NETWORK_URLS: {
   [ChainId.KOVAN]: `https://kovan.infura.io/v3/${INFURA_KEY}`,
   [ChainId.POLYGON_MAINNET]: `https://polygon-mainnet.infura.io/v3/${INFURA_KEY}`,
   [ChainId.POLYGON_TESTNET]: `https://polygon-mumbai.infura.io/v3/${INFURA_KEY}`,
+};
+
+export const NETWORK_EXPLORERS: {
+  [chainId in ChainId]: string
+} = {
+  [ChainId.MAINNET]: `https://etherscan.io/`,
+  [ChainId.RINKEBY]: `https://rinkeby.etherscan.io/`,
+  [ChainId.ROPSTEN]: `https://ropsten.etherscan.io/`,
+  [ChainId.GOERLI]: `https://goerli.etherscan.io/`,
+  [ChainId.KOVAN]: `https://kovan.etherscan.io/`,
+  [ChainId.POLYGON_MAINNET]: `https://polygonscan.com/`,
+  [ChainId.POLYGON_TESTNET]: `https://mumbai.polygonscan.com/`,
 };

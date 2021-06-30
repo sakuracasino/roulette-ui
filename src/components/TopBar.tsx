@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Web3Provider } from '@ethersproject/providers'
 import { useWeb3React } from '@web3-react/core'
+import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateNetwork } from '../flux/slices/networkSlice';
@@ -8,9 +9,27 @@ import { updateNetwork } from '../flux/slices/networkSlice';
 // @ts-ignore
 import RouletteLogo from '../assets/roulette-logo.svg';
 import ConnectWalletButton from './ConnectWalletButton';
-import NetworkHelper from '../libs/NetworkHelper';
+import NetworkHelper, { networks, supportedChainIds }from '../libs/NetworkHelper';
+import { ChainId, NETWORK_LABELS, NETWORK_EXPLORERS } from '../data/chains';
 
 import './TopBar.scss';
+
+function NetworkBadge({provider}: {provider: Web3ReactContextInterface<Web3Provider>}) {
+  if (!supportedChainIds.includes(provider.chainId || 0)) {
+    return null;
+  }
+  const network = networks.find((_network: {chain_id: number}) => _network.chain_id == provider.chainId);
+
+  return (
+    <a
+      className="NetworkBadge"
+      href={`${NETWORK_EXPLORERS[provider.chainId]}address/${network.contract_address}`}
+      target="_blank">
+      {NETWORK_LABELS[provider.chainId]}
+    </a>
+  );
+}
+
 export default function TopBar() {
   const web3React = useWeb3React<Web3Provider>();
   const [mintLoading, setMintLoading] = useState(false);
@@ -38,13 +57,14 @@ export default function TopBar() {
           <li className={location.pathname === '/' ? 'active' : ''} onClick={() => history.push('/')}>Bet</li>
           <li className={location.pathname === '/pool' ? 'active' : ''} onClick={() => history.push('/pool')}>Pool</li>
         </ul>
-        {web3React.active && <div className="dai-mint-container">
+        {web3React.active && web3React.chainId === ChainId.POLYGON_TESTNET && <div className="dai-mint-container">
           <div className="dai-mint-btn" onClick={mintLoading ? undefined : onTokenDropClick}>
             {mintLoading ? 'minting...' : 'Mint DAI'}
           </div>
         </div>}
       </div>
-      <div className="TopBar__right-menu">
+      <div className="TopBar__right-menu" style={{display:'flex'}}>
+        {web3React.active && <NetworkBadge provider={web3React} />}
         <ConnectWalletButton />
       </div>
     </div>

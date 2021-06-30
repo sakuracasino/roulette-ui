@@ -2,6 +2,13 @@
 
 .PoolPage {
 
+  &__warning {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 640px;
+    width: 100%;
+  }
+
   .LiquidityBlock {
     background-color: $dark-blue-1;
     border-radius: $border-radius;

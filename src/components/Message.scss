@@ -23,5 +23,10 @@
     background-color: rgba($orange-1, 0.2);
     color: $orange-1;
     border: 0;
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
   }
 }

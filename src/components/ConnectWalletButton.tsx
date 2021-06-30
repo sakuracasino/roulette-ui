@@ -9,15 +9,13 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
 
 import { NETWORK_URLS } from '../data/chains';
-import { networks } from '../libs/NetworkHelper';
 import { shortAccount } from '../libs/utils';
+import { networks, supportedChainIds } from '../libs/NetworkHelper';
 import { updateNetwork } from '../flux/slices/networkSlice';
 import { AppState } from '../flux/store';
 
 import Message from './Message';
 import Dialog from './Dialog';
-
-const supportedChainIds = networks.map((network: {chain_id: number}) => network.chain_id);
 
 const injectedConnector = new InjectedConnector({
   supportedChainIds,
@@ -112,6 +110,12 @@ function ConnectDialog({opened, onClose}: {opened: boolean, onClose: () => void}
           {web3React.active ? 'Change connector' : 'Connect to a wallet'}
         </div>
         <div className="ConnectWalletDialog__body">
+          <Message className="ConnectWalletDialog__disclaimer" type="warning">
+            This app only works with<span> </span> 
+            <a href="https://docs.matic.network/docs/develop/metamask/config-matic/" target="_blank">
+              Matic network
+            </a>
+          </Message>
           {(web3React.active && web3React.account) ? <Address address={web3React.account} /> : null}
           {error ? <Message type="error">{error}</Message> : null}
           <button className={metamaskConnectorClasses} onClick={() => activateConnector(injectedConnector)}>

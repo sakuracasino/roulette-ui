@@ -22,6 +22,7 @@ export const networks = process.env.NODE_ENV !== 'development' ? deployedNetwork
     "contract_address": process.env.ROULETTE_ADDRESS,
   }
 ];
+export const supportedChainIds = networks.map((network: {chain_id: number}) => network.chain_id);
 
 const contracts = new Map();
 

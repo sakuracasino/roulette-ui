@@ -7,6 +7,7 @@ import { AppState } from '../flux/store';
 import { updateNetwork } from '../flux/slices/networkSlice';
 import ApproveButton from './ApproveButton';
 import BigButton from './BigButton';
+import Message from './Message';
 import Dialog, { useDialogAnimation } from './Dialog';
 import NumberInput from './NumberInput';
 import './PoolPage.scss'
@@ -111,6 +112,12 @@ const PoolPage = function () {
   const accountLiquidity: number = useSelector((state: AppState) => state.network.accountLiquidity);
   return (
     <div className="PoolPage">
+      <Message className="PoolPage__warning" type="warning">
+        <b>Warning: </b> the roulette contract has not been audited yet.<br />
+        Please be sure to
+        <a href="https://docs.sakura.casino/guide/pooling/" target="_blank"> know the risks </a>
+        before providing liquidity.
+      </Message>
       <div className="LiquidityBlock__container">
         <div className="LiquidityBlock">
             <div className="LiquidityBlock__info-table">

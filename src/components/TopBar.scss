@@ -51,6 +51,7 @@
     padding: 8px 12px;
   }
 
+  .NetworkBadge,
   .dai-mint-btn {
     display: inline-flex;
     margin: 0px;
@@ -67,5 +68,13 @@
     &:hover {
       background-color: rgba($orange-1, 0.1);
     }
+  }
+
+  .NetworkBadge {
+    text-decoration: none;
+    width: auto;
+    margin-right: 20px;
+    // color: $blue-1;
+    // background-color: $dark-blue-1;
   }
 }
