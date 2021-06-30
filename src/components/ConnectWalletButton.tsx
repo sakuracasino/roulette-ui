@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { Web3Provider } from '@ethersproject/providers'
-import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
-import { InjectedConnector } from '@web3-react/injected-connector';
+import { useWeb3React, UnsupportedChainIdError,  } from '@web3-react/core'
+import { InjectedConnector, UserRejectedRequestError } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { Web3ReactContextInterface } from '@web3-react/core/dist/types';
@@ -39,7 +39,7 @@ import './ConnectWalletButton.scss';
 
 function isSupportedNetwork(web3React: Web3ReactContextInterface<Web3Provider>) {
   if(web3React?.error) {
-    return web3React?.error?.name !== 'UnsupportedChainIdError';
+    return !(web3React.error instanceof UnsupportedChainIdError);
   } else {
     return true;
   }
@@ -47,22 +47,21 @@ function isSupportedNetwork(web3React: Web3ReactContextInterface<Web3Provider>) 
 
 function getError(error: Error | undefined) {
   if (error) {
-    switch(error.name) {
-      case 'UnsupportedChainIdError':
-        const networksList = networks.map((network: {title: string}) => network.title).join(', ')
-        return (
+    if (error instanceof UnsupportedChainIdError) {
+      const networksList = networks.map((network: {title: string}) => network.title).join(', ')
+      return (
+        <div>
+          Network is not supported, please use one of supported networks:
           <div>
-            Network is not supported, please use one of supported networks:
-            <div>
-              {networksList}
-            </div>
+            {networksList}
           </div>
-        );
-      case 'UserRejectedRequestError':
-        return 'Error: request was rejected';
-      default:
-        console.error(error);
-        return 'Unknow error, please check the console';
+        </div>
+      );
+    } else if (error instanceof UserRejectedRequestError) {
+      return 'Error: request was rejected';
+    } else {
+      console.error(error);
+      return 'Unknow error, please check the console';
     }
   }
   return null;
