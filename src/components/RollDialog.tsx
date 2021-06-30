@@ -48,7 +48,6 @@ const RollDialog = () => {
 
   const rollBets = useCallback(async (_signatureParams) => {
     const networkHelper = new NetworkHelper(web3React);
-    const roulette = networkHelper.getRouletteContract();
     const betsForContract = networkHelper.getBetsForContract(bets);
     try {
       const rollTx = await networkHelper.rollBets(betsForContract, `${random32()}`, ..._signatureParams);

@@ -1,3 +1,5 @@
+import { BigNumber } from "@ethersproject/bignumber";
+
 export enum BetType {
   Number,
   Color,
@@ -38,3 +40,10 @@ export interface Network {
   bet_token_address: string;
   contract_address: string;
 }
+
+export interface RollRequest {
+  requestId: string,
+  address: string;
+  randomResult: BigNumber | null,
+  payout: BigNumber | null,
+};

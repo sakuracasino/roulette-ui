@@ -23,14 +23,6 @@ export const networks = process.env.NODE_ENV !== 'development' ? deployedNetwork
   }
 ];
 
-export type RollLog = {
-  requestId: string,
-  sender: string,
-  completed: boolean,
-  randomResult?: number,
-  payout?: number,
-};
-
 const contracts = new Map();
 
 export default class NetworkHelper {
@@ -98,27 +90,9 @@ export default class NetworkHelper {
     return totalLiquidity * (addressShares / totalShares);
   }
 
-  async getRollHistory(): Promise<RollLog[]> {
+  async getRequestIdAddress(requestId: string) {
     const roulette = await this.getRouletteContract();
-    const betRequestHistory = await roulette.queryFilter('BetRequest', -900);
-    const betResults = (
-      await roulette.queryFilter('BetResult')
-    ).reduce((results: any, betRequest: {args: {requestId: string, randomResult: BigNumber, payout: BigNumber}}) => {
-      results[betRequest.args.requestId] = {
-        randomResult: betRequest.args.randomResult.toString(),
-        payout: formatEther(betRequest.args.payout),
-      };
-      return results;
-    }, {});
-    const betHistory: RollLog[] = betRequestHistory.map((betRequest: {args: {requestId: string, sender: string}}) => {
-      return {
-        requestId: betRequest.args.requestId,
-        sender: betRequest.args.sender,
-        completed: !!betResults[betRequest.args.requestId],
-        ...(betResults[betRequest.args.requestId] || {})
-      };
-    });
-    return betHistory;
+    return await roulette.requesterOf(requestId);
   }
 
   async addLiquidity(amount: BigNumber, ...signature: any[]) {

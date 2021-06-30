@@ -1,46 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { formatEther } from '@ethersproject/units';
 
 import Tabs from './Tabs';
 import BetBadge from './BetBadge';
-import NetworkHelper, { RollLog } from '../libs/NetworkHelper';
+import NetworkHelper from '../libs/NetworkHelper';
 import { shortAccount } from '../libs/utils';
-import { BetType } from '../types.d';
+import { BetType, RollRequest } from '../types.d';
 import './LastRolls.scss';
 import { AppState } from '../flux/store';
+import { addRollRequest, updateRollRequest } from '../flux/slices/networkSlice';
+import { BigNumber } from '@ethersproject/bignumber';
 
 const LastRolls = () => {
   const web3React = useWeb3React();
+  const dispatch = useDispatch();
   const account: string = useSelector((state: AppState) => state.network.account);
-  const [rolls, setRolls] = useState<RollLog[]>([])
-  const [showAllRolls, setShowAllRolls] = useState(true)
+  const rollHistory: RollRequest[] = useSelector((state: AppState) => state.network.rollHistory);
+  const [showAllRolls, setShowAllRolls] = useState(true);
   useEffect(() => {
     if(web3React.active) {
-      const updateRollHistory = () => networkHelper.getRollHistory().then((rollHistory: RollLog[]) => setRolls(rollHistory.reverse()));
       const networkHelper = new NetworkHelper(web3React);
       const roulette = networkHelper.getRouletteContract();
-      roulette.on('BetResult', updateRollHistory);
-      roulette.on('BetRequest', updateRollHistory);
-      updateRollHistory();
+      const resolveRollRequest = (requestId: string, randomResult: BigNumber, payout: BigNumber) => {
+        dispatch(updateRollRequest({
+          requestId,
+          randomResult,
+          payout,
+        }));
+      };
+      const setRollRequest = (requestId: string, sender: string) => {
+        dispatch(addRollRequest({
+          requestId,
+          address: sender,
+        }))
+      };
+      roulette.on('BetResult', resolveRollRequest);
+      roulette.on('BetRequest', setRollRequest);
     }
   }, [web3React.active]);
 
-  const renderRoll = (roll: RollLog) => {
+  const renderRoll = (roll: RollRequest) => {
     let rollResultNode = (
       <div className="LastRolls__roll-loader">
         <div className="loader"></div>
       </div>
     );
 
-    if (roll.completed) {
+    if (roll.payout !== null) {
       rollResultNode = (
         <div className="LastRolls__roll-result">
           <div className="LastRolls__roll-badge">
-            <BetBadge bet={{type: BetType.Number, value: Number(roll.randomResult)}} />
+            <BetBadge bet={{type: BetType.Number, value: Number(BigNumber.from(roll.randomResult))}} />
           </div>
           <div className="LastRolls__roll-payout">
-            {Number(roll.payout) ? <span className="positive">${roll.payout}</span> : 'LOSE'}
+            {Number(BigNumber.from(roll.payout)) ? <span className="positive">${formatEther(BigNumber.from(roll.payout))}</span> : 'LOSE'}
           </div>
         </div>
       );
@@ -50,7 +65,7 @@ const LastRolls = () => {
       <div className="LastRolls__roll" key={`last-rolls-${showAllRolls ? 1 : 0}-${roll.requestId}`}>
         {rollResultNode}
         <div className="LastRolls__roll-account">
-          {shortAccount(roll.sender)}
+          {shortAccount(roll.address)}
         </div>
       </div>
     );
@@ -69,8 +84,9 @@ const LastRolls = () => {
       </div>
       <div className="LastRolls__rolls">
         {
-          rolls
-            .filter(roll => showAllRolls || roll.sender === account)
+          [...rollHistory]
+            .reverse()
+            .filter(roll => showAllRolls || roll.address === account)
             .filter((_, index) => index < 30)
             .map(renderRoll)
         }
