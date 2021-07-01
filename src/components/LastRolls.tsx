@@ -44,10 +44,8 @@ const LastRolls = () => {
           };
           const request = await fetch(`${url}?` + new URLSearchParams(params).toString());
           const events = (await request.json()).result;
-          console.log('events', events);
           return events.map ? events.map((event: {data: string, topics: string[]}) => {
             const decodedEvent = contractInterface.decodeEventLog(eventName, event.data, event.topics);
-            console.log(contractInterface.getEventTopic(eventName));
             return decodedEvent;
           }) : [];
         };
