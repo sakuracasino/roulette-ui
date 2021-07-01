@@ -120,7 +120,7 @@ export default class NetworkHelper {
   }
 
   public toTokenDecimals(value: number) {
-    return parseEther(`${value}`);
+    return parseEther(value.toFixed(18));
   }
 
   public fromTokenDecimals(value: BigNumberish) {

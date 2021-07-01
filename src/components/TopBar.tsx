@@ -9,7 +9,7 @@ import { updateNetwork } from '../flux/slices/networkSlice';
 // @ts-ignore
 import RouletteLogo from '../assets/roulette-logo.svg';
 import ConnectWalletButton from './ConnectWalletButton';
-import NetworkHelper, { networks, supportedChainIds }from '../libs/NetworkHelper';
+import NetworkHelper, { supportedChainIds }from '../libs/NetworkHelper';
 import { ChainId, NETWORK_LABELS, NETWORK_EXPLORERS } from '../data/chains';
 
 import './TopBar.scss';
@@ -18,7 +18,8 @@ function NetworkBadge({provider}: {provider: Web3ReactContextInterface<Web3Provi
   if (!supportedChainIds.includes(provider.chainId || 0)) {
     return null;
   }
-  const network = networks.find((_network: {chain_id: number}) => _network.chain_id == provider.chainId);
+  const networkHelper = new NetworkHelper(provider);
+  const network = networkHelper.getNetwork();
 
   return (
     <a
