@@ -94,7 +94,7 @@ const LastRolls = () => {
             <BetBadge bet={{type: BetType.Number, value: Number(BigNumber.from(roll.randomResult))}} />
           </div>
           <div className="LastRolls__roll-payout">
-            {Number(BigNumber.from(roll.payout)) ? <span className="positive">${formatEther(BigNumber.from(roll.payout))}</span> : 'LOSE'}
+            {Number(BigNumber.from(roll.payout)) ? <span className="positive">${Number(formatEther(BigNumber.from(roll.payout))).toFixed(2)}</span> : 'LOSE'}
           </div>
         </div>
       );
