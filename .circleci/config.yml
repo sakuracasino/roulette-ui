@@ -6,9 +6,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:11.15.0-stretch
+      - image: cimg/node:12.11.0
 
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "56:26:49:79:c2:ad:5f:52:8c:0e:f3:d2:41:1b:6b:fd"
+
       - checkout
 
       - restore_cache:
@@ -18,8 +22,8 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            sudo apt-get update
-            sudo apt-get install awscli -y
+            apt update
+            apt install awscli -y
             npm install
 
       - save_cache:
