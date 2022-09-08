@@ -41,12 +41,12 @@ export const updateNetwork = createAsyncThunk(
       const contractLiquidityBalance = await networkHelper.getRouletteTotalLiquidity();
       const accountLiquidity = await networkHelper.getAddressLiquidity(web3React.account || '');
       return {
-        account: web3React.account,
-        accountBalance: Number(balance),
-        accountLiquidity,
-        contractLiquidityBalance,
-        betFee,
-        maxBet,
+        account: web3React.account || '',
+        accountBalance: Number(balance) || 0,
+        accountLiquidity: accountLiquidity || 0,
+        contractLiquidityBalance: contractLiquidityBalance || 0,
+        betFee: betFee || 0,
+        maxBet: maxBet || 0,
       };
     } else {
       return {};
